@@ -1,0 +1,50 @@
+<html>
+<head>
+  <title>array component</title>
+  <link rel="stylesheet" href="../build/build.css">
+</head>
+<body>
+  <h1>array component</h1>
+  <script src="../build/build.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var array = require('array'),
+        arr = array([1, 2, 3]);
+
+    console.log(arr.length);
+
+    arr.on('add', function() {
+      console.log('adding', arguments);
+    })
+
+    arr.on('remove', function() {
+      console.log('removed', arguments);
+    })
+
+    arr.on('pop', function(val) {
+      console.log('popping', val);
+    });
+
+    arr.on('shift', function(val) {
+      console.log('shifted', val);
+    })
+
+    arr.on('reverse', function(arr) {
+      console.log(arr);
+    })
+
+    arr.push('hi', 'hello');
+    arr.pop();
+    arr.pop();
+    arr.pop();
+
+    arr.unshift('lol', 'wahoo!')
+
+    arr.shift();
+    console.log(arr);
+    arr.splice(1, 2, 'hi')
+    console.log(arr);
+
+    arr.reverse();
+  </script>
+</body>
+</html>

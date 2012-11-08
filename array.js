@@ -18,11 +18,13 @@ var proto = Array.prototype;
 
 /**
  * Initalize `array`
+ *
+ * @param {Array} arr
+ * @return {array}
  */
 
 function array(arr) {
   if(!(this instanceof array)) return new array(arr);
-  Emitter.call(this);
   return mixin(arr);
 }
 
@@ -33,31 +35,38 @@ function array(arr) {
 Emitter(array.prototype);
 
 /**
- * Removes the last element from an array and returns that element.
+ * Removes the last element from an array and returns that element
+ *
+ * @return {Mixed} removed element
  */
 
 array.prototype.pop = function() {
   var ret = proto.pop.apply(this, arguments);
-  console.log('return', ret);
   this.emit('pop', ret);
   this.emit('remove', ret);
   return ret;
 };
 
 /**
- * Push a value onto the end of the array
+ * Push a value onto the end of the array,
+ * returning the length of the array
+ *
+ * @param {Mixed, ...} elements
+ * @return {Number}
  */
 
 array.prototype.push = function() {
   var ret = proto.push.apply(this, arguments),
       args = [].slice.call(arguments);
-  this.emit(this, 'push', args);
-  this.emit(this, 'add', args);
+  this.emit('push', ret);
+  this.emit.apply(this, ['add'].concat(args));
   return ret;
 };
 
 /**
  * Reverses an array in place.
+ *
+ * @return {Array}
  */
 
 array.prototype.reverse = function() {
@@ -68,6 +77,8 @@ array.prototype.reverse = function() {
 
 /**
  * Removes the first element from an array and returns that element.
+ *
+ * @return {Mixed}
  */
 
 array.prototype.shift = function() {
@@ -79,6 +90,8 @@ array.prototype.shift = function() {
 
 /**
  * Sorts the elements of an array.
+ *
+ * @return {Array}
  */
 
 array.prototype.sort = function() {
@@ -89,25 +102,35 @@ array.prototype.sort = function() {
 
 /**
  * Adds and/or removes elements from an array.
+ *
+ * @param {Number} index
+ * @param {Number} howMany
+ * @param {Mixed, ...} elements
+ * @return {Array} removed elements
  */
 
 array.prototype.splice = function() {
-  var ret = proto.splice.apply(this, arguments);
+  var ret = proto.splice.apply(this, arguments),
+      added = [].slice.call(arguments, 2);
   this.emit('splice', ret);
-  this.emit('remove', ret);
+  if(ret.length) this.emit.apply(this, ['remove'].concat(ret));
+  if(added.length) this.emit.apply(this, ['add'].concat(added));
   return ret;
 };
 
 /**
  * Adds one or more elements to the front of an array
  * and returns the new length of the array.
+ *
+ * @param {Mixed, ...} elements
+ * @return {Number} length
  */
 
 array.prototype.unshift = function() {
   var ret = proto.unshift.apply(this, arguments),
       args = [].slice.call(arguments);
-  this.emit('unshift', args);
-  this.emit('add', args);
+  this.emit('unshift', ret);
+  this.emit.apply(this, ['add'].concat(args));
   return ret;
 };
 
