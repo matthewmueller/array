@@ -1,7 +1,7 @@
 
 # array
 
-A more vocal array mixin.
+A more vocal array
 
 Properly mixes an event emitter into your arrays, without modifying `Array.prototype` and leaving all the original functionality intact.
 
