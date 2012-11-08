@@ -59,7 +59,7 @@ array.prototype.push = function() {
   var ret = proto.push.apply(this, arguments),
       args = [].slice.call(arguments);
   this.emit('push', ret);
-  if(args.length) this.emit.apply(this, ['add'].concat(args));
+  for(var i = 0, len = args.length; i < len; i++) this.emit('add', args[i]);
   return ret;
 };
 
@@ -113,8 +113,8 @@ array.prototype.splice = function() {
   var ret = proto.splice.apply(this, arguments),
       added = [].slice.call(arguments, 2);
   this.emit('splice', ret);
-  if(ret.length) this.emit.apply(this, ['remove'].concat(ret));
-  if(added.length) this.emit.apply(this, ['add'].concat(added));
+  for(var i = 0, len = ret.length; i < len; i++) this.emit('remove', ret[i]);
+  for(    i = 0, len = added.length; i < len; i++) this.emit('add', added[i]);
   return ret;
 };
 
@@ -130,7 +130,7 @@ array.prototype.unshift = function() {
   var ret = proto.unshift.apply(this, arguments),
       args = [].slice.call(arguments);
   this.emit('unshift', ret);
-  if(args.length) this.emit.apply(this, ['add'].concat(args));
+  for(var i = 0, len = args.length; i < len; i++) this.emit('add', args[i]);
   return ret;
 };
 

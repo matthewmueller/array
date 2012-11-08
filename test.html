@@ -12,12 +12,12 @@
 
     console.log(arr.length);
 
-    arr.on('add', function() {
-      console.log('adding', arguments);
+    arr.on('add', function(val) {
+      console.log('adding', val);
     })
 
-    arr.on('remove', function() {
-      console.log('removed', arguments);
+    arr.on('remove', function(val) {
+      console.log('removed', val);
     })
 
     arr.on('pop', function(val) {
