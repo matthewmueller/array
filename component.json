@@ -1,0 +1,16 @@
+{
+  "name": "array",
+  "repo": "matthewmueller/array",
+  "description": "a vocal array mixin",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/emitter" : "*"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "array.js",
+  "scripts": [
+    "array.js"
+  ]
+}

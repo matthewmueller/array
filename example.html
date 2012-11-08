@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>array component</title>
+  <link rel="stylesheet" href="../build/build.css">
+</head>
+<body>
+  <h1>array component</h1>
+  <script src="../build/build.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var array = require('array');
+
+    var arr = array([]);
+
+
+    arr.on('add', function(val, val2) {
+      console.log('adding', val, val2);
+    })
+
+    arr.on('pop', function(val) {
+      console.log('popping', val);
+    });
+
+    arr.push('hi', 'ha');
+    arr.pop();
+
+  </script>
+</body>
+</html>
