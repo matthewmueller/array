@@ -52,8 +52,8 @@ All array mutator functions emit events. Those events will simply emit the retur
 The higher-level `add` and `remove` events will be emitted when items are added or removed from the array. If more than one item is added to the array, the `add` event will be emitted for each added item
 
 ```js
-arr.on('add', function(one) {
-  console.log(one); // called twice: "hi" then "hello"
+arr.on('add', function(val) {
+  console.log(val); // called twice: "hi" then "hello"
 })
 
 arr.push('hi', 'hello')
