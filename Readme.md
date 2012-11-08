@@ -1,7 +1,9 @@
 
 # array
 
-A more vocal array mixin
+A more vocal array mixin.
+
+Properly mixes an event emitter into your arrays, without modifying `Array.prototype` and leaving all the original functionality intact.
 
 ## Example
 
@@ -24,6 +26,7 @@ arr.on('reverse', function(arr) {
 arr.push('d');
 arr.shift();
 arr.reverse();
+console.log(arr.length) // 3;
 ```
 
 ## Installation
