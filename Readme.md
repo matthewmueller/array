@@ -40,10 +40,10 @@ console.log(arr.length) // 3;
 * `pop` (item) - emits the removed array item
 * `push` (length) - emits the new length of the array
 * `reverse` (array) - emits the reversed array
-* `shift` - emitted when elements are shifted off the array
-* `sort` - emitted when an array is sorted
-* `splice` - emitted when an array is spliced
-* `unshift` - emitted when elements are added to the front of the array
+* `shift` (item) - emits the removed item
+* `sort` (array) - emits the sorted array
+* `splice` (array) - emits the removed elements
+* `unshift` (length) - emits the new length of the array
 
 ## Design
 
