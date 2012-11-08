@@ -59,7 +59,7 @@ array.prototype.push = function() {
   var ret = proto.push.apply(this, arguments),
       args = [].slice.call(arguments);
   this.emit('push', ret);
-  this.emit.apply(this, ['add'].concat(args));
+  if(args.length) this.emit.apply(this, ['add'].concat(args));
   return ret;
 };
 
@@ -130,7 +130,7 @@ array.prototype.unshift = function() {
   var ret = proto.unshift.apply(this, arguments),
       args = [].slice.call(arguments);
   this.emit('unshift', ret);
-  this.emit.apply(this, ['add'].concat(args));
+  if(args.length) this.emit.apply(this, ['add'].concat(args));
   return ret;
 };
 

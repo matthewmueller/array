@@ -45,6 +45,18 @@
     console.log(arr);
 
     arr.reverse();
+
+
+    var arr2 = array([1, 2]);
+    arr2.on('add', function(val) {
+      console.log('arr2: added', val);
+    });
+
+    arr2.on('remove', function(val) {
+      console.log('arr2: removed', val);
+    })
+    arr2.push();
+    arr2.pop();
   </script>
 </body>
 </html>

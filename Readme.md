@@ -35,21 +35,21 @@ console.log(arr.length) // 3;
 
 ## Events
 
-* `add` (item, ...) - emitted when elements are added to the array (push, unshift, splice)
-* `remove` (item, ...) - emitted when elements are removed from the array (pop, shift, splice)
+* `add` (item, ...) - emitted when items are added to the array (push, unshift, splice)
+* `remove` (item, ...) - emitted when items are removed from the array (pop, shift, splice)
 * `pop` (item) - emits the removed array item
 * `push` (length) - emits the new length of the array
 * `reverse` (array) - emits the reversed array
 * `shift` (item) - emits the removed item
 * `sort` (array) - emits the sorted array
-* `splice` (array) - emits the removed elements
+* `splice` (array) - emits the removed items
 * `unshift` (length) - emits the new length of the array
 
 ## Design
 
 All array mutator functions emit events. Those events will simply emit the return value of the array.
 
-The higher-level `add` and `remove` events will be emitted when elements are added or removed from the array. If more than one element is added to the array, the `add` event will pass additional arguments.
+The higher-level `add` and `remove` events will be emitted when items are added or removed from the array. If more than one element is added to the array, the `add` event will pass additional arguments.
 
 ```js
 arr.on('add', function(one, two) {
@@ -57,6 +57,23 @@ arr.on('add', function(one, two) {
 })
 
 arr.push('hi', 'hello')
+```
+
+One of the more interesting functions is `splice` that can both add and remove items. Both `add` and `remove` events may be emitted.
+
+```js
+var arr = array([1, 2, 3])
+
+arr.on('add', function(val, val2) {
+  console.log('added', val, val2) // added a b
+})
+
+arr.on('remove', function(val) {
+  console.log('removed', val) // removed 2
+})
+
+arr.splice(1, 2, 'a', 'b')
+console.log(arr); // [1, "a", "b"]
 ```
 
 ## API
