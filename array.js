@@ -24,6 +24,7 @@ var proto = Array.prototype;
  */
 
 function array(arr) {
+  arr = arr || [];
   if(!(this instanceof array)) return new array(arr);
   return mixin(arr);
 }
