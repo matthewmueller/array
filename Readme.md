@@ -1,4 +1,3 @@
-
 # array
 
 A more vocal array
@@ -79,6 +78,10 @@ console.log(arr); // [1, "a", "b"]
 ## API
 
 The API is the same as the mutator functions of a normal array. See [MDN: Array.prototype](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/prototype#Mutator_methods) for more information.
+
+## TODO
+
+* Try jQuery model to improve performance (V8 is not good at optimizing this kind of sorcery)
 
 ## License
 
