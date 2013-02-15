@@ -14,9 +14,10 @@ The functional bits are based on the [Enumerable](https://github.com/component/e
 
     component install matthewmueller/array
 
-### Browser
+### Browser (standalone, amd, etc.)
 
-    dist/array.js
+    Development (24k): dist/array.js
+    Production (4k w/ gzip): dist/array.js
 
 ## Examples
 
