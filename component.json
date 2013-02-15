@@ -2,7 +2,7 @@
   "name": "array",
   "repo": "matthewmueller/array",
   "description": "a vocal array mixin",
-  "version": "0.1.0",
+  "version": "0.1npm p.0",
   "keywords": [],
   "dependencies": {
     "component/emitter" : "*",
