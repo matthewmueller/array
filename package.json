@@ -20,6 +20,9 @@
     "emitter": "component/emitter",
     "to-function": "component/to-function"
   },
+  "scripts": {
+    "test" : "make test"
+  },
   "devDependencies": {
     "mocha" : "*",
     "better-assert" : "*"

@@ -329,6 +329,11 @@ Mutator methods that modify the array will emit "add" and "remove" events.
 
   Return the last value, or last `n` values.
 
+## Run tests
+
+    npm install .
+    npm test
+
 ## License
 
 (The MIT License)
