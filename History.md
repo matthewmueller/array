@@ -1,4 +1,12 @@
 
+0.1.0 / 2013-02-14
+==================
+
+  * Updated API and readme
+  * Added enumerable methods
+  * Removed events for all mutator functions
+  * Tests
+
 0.0.2 / 2012-11-08
 ==================
 
