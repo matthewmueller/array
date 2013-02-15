@@ -98,15 +98,37 @@ describe('enumerable', function () {
 
   describe('find', function() {
     it('should find strings', function(){
-       var fruit = fruits.find({ name : 'grape'});
-       assert('grape' == fruit.name);
+      fruits.push({ name : 'grape', color : 'red'});
+      var fruit = fruits.find({ name : 'grape'});
+      assert('grape' == fruit.name);
+      assert('purple' == fruit.color);
     });
 
     it('should work with functions', function(){
+      fruits.push({ name : 'grape', color : 'red'});
       var fruit = fruits.find(function(fruit) {
         return fruit.name == 'grape';
       });
       assert('grape' == fruit.name);
+      assert('purple' == fruit.color);
+    });
+  });
+
+  describe('findLast', function() {
+    it('should find strings', function(){
+      fruits.push({ name : 'grape', color : 'red'});
+      var fruit = fruits.findLast({ name : 'grape'});
+      assert('grape' == fruit.name);
+      assert('red' == fruit.color);
+    });
+
+    it('should work with functions', function(){
+      fruits.push({ name : 'grape', color : 'red' });
+      var fruit = fruits.findLast(function(fruit) {
+        return fruit.name == 'grape';
+      });
+      assert('grape' == fruit.name);
+      assert('red' == fruit.color);
     });
   });
 
