@@ -10,7 +10,8 @@
   "keywords": [
     "array",
     "functional",
-    "vocal"
+    "vocal",
+    "enumerable"
   ],
   "author": "matthew mueller",
   "license": "MIT",

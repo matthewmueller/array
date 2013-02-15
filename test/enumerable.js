@@ -145,4 +145,17 @@ describe('enumerable', function () {
        assert('grape' == fruit.name);
     });
   });
+
+  describe('indexOf', function () {
+    it('work with indexOf', function () {
+      var arr = array(['1', '2']);
+      assert(0 === arr.indexOf('1'));
+      assert(1 === arr.indexOf('2'));
+    });
+
+    it('should also work with objects', function(){
+      var i = fruits.indexOf(fruits[2]);
+      assert(2 == i);
+    });
+  });
 });

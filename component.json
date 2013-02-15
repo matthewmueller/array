@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "component/emitter" : "*",
-    "component/enumerable" : "*"
+    "component/to-function" : "*"
   },
   "development": {},
   "license": "MIT",

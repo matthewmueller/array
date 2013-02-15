@@ -15,6 +15,11 @@ describe('array', function () {
     arr = array();
   });
 
+  it('() should initialize an empty array', function(){
+    var arr = array();
+    assert(0 === arr.length);
+  });
+
   it('should be array-like', function () {
     var arr = array(['1', '2', '3']);
     assert(3 === arr.length);
@@ -48,14 +53,6 @@ describe('array', function () {
     it('should emit "add" events', function(){
       arr.on('add', function(v) { assert('hi' === v); });
       arr.push('hi');
-    });
-  });
-
-  describe('indexOf', function () {
-    it('work with indexOf', function () {
-      arr.push('1', '2');
-      assert(0 === arr.indexOf('1'));
-      assert(1 === arr.indexOf('2'));
     });
   });
 });
