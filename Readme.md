@@ -2,7 +2,7 @@
 
 A better array for the browser and node.js. Supports events & many functional goodies.
 
-The functional bits are based on the [Enumerable](https://github.com/component/enumerable) component.
+The functional bits are based off the [Enumerable](https://github.com/component/enumerable) component.
 
 ## Installation
 
