@@ -78,7 +78,7 @@ Keep in mind both these issues are also present when working with jQuery objects
 An event will be emitted for each item you add or remove. So if you do something like:
 
 ```js
-fruits.on('add', fn);
+fruits.on('add', function(item) {});
 fruits.push('apple', 'orange', 'pear')
 ```
 
