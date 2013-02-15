@@ -19,11 +19,16 @@ The functional bits are based on the [Enumerable](https://github.com/component/e
 * Development (24k): [dist/array.js](https://raw.github.com/MatthewMueller/array/master/dist/array.js)
 * Production (4k w/ gzip): [dist/array.js](https://raw.github.com/MatthewMueller/array/master/dist/array.min.js)
 
+> Note: if you use this library standalone, `array` will be attached to the window. You can access it with `window.array()` or just `array()`. Keep in mind javascript is case-sensitive and `Array()` will create a native array.
+
 ## Examples
 
 ### Events:
 
 ```js
+var array = require('array'),
+    users = array();
+
 users.on('add', function(user) {
   console.log('added ', user);
 });
