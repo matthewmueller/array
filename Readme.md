@@ -16,8 +16,8 @@ The functional bits are based on the [Enumerable](https://github.com/component/e
 
 ### Browser (standalone, amd, etc.)
 
-    Development (24k): dist/array.js
-    Production (4k w/ gzip): dist/array.js
+* Development (24k): [dist/array.js](https://raw.github.com/MatthewMueller/array/master/dist/array.js)
+* Production (4k w/ gzip): [dist/array.js](https://raw.github.com/MatthewMueller/array/master/dist/array.min.js)
 
 ## Examples
 
@@ -101,7 +101,7 @@ Mutator methods that modify the array will emit "add" and "remove" events.
 
 ### Iteration Methods:
 
-`array` iteration methods implements most of the methods of (component/enumerable)[https://github.com/component/enumerable]. The documentation below was originally written by [visionmedia](https://github.com/visionmedia).
+`array` iteration methods implements most of the methods of [component/enumerable](https://github.com/component/enumerable). The documentation below was originally written by [visionmedia](https://github.com/visionmedia).
 
 #### `.each(fn)`
 
