@@ -68,6 +68,8 @@ When working with `array` it's important to keep in mind that `array` is not an 
 * you cannot manually set array indexes because the length value will not be updated. You will have to use the mutator methods provided like push, pop, etc.
 * `arr instanceof Array` will return `false`. So there may be some interoperability issues if you try to blindly pass these arrays through other libraries.
 
+Keep in mind both these issues are also present when working with jQuery objects as well as Backbone Collections.
+
 ## Events
 
 * `add` (item) - emitted when items are added to the array (`push`, `unshift`, `splice`)
