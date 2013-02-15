@@ -5,12 +5,14 @@
   "version": "0.0.2",
   "keywords": [],
   "dependencies": {
-    "component/emitter" : "*"
+    "component/emitter" : "*",
+    "component/enumerable" : "*"
   },
   "development": {},
   "license": "MIT",
-  "main": "array.js",
   "scripts": [
-    "array.js"
+    "index.js",
+    "lib/array.js",
+    "lib/enumerable.js"
   ]
 }
