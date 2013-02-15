@@ -18,7 +18,7 @@
   "readmeFilename": "Readme.md",
   "dependencies": {
     "emitter": "component/emitter",
-    "to-function": "component/to-function"
+    "to-function": "*"
   },
   "scripts": {
     "test" : "make test"
