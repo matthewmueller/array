@@ -53,6 +53,8 @@ fruits.find({ name : 'apple' }).color
 
 This library uses an array-like object to implement all it's methods. This is very similar to how jQuery lets you do: `$('.modal')[0]` and `$('p').length`.
 
+One caveat with working with array-like objects is that you cannot manually set array indexes because the length value will not be updated. You will have to use the mutator methods provided like push, pop, etc.
+
 This library differs from `component/enumerable` in that it has events and does not wrap the array. To access the actual array in enumerable you had to call `.value()`. You can treat `array`, just like an array, because it implements all the same methods.
 
 ## Events
@@ -62,15 +64,15 @@ This library differs from `component/enumerable` in that it has events and does 
 
 ## API
 
-### `array(mixed)`
+#### `array(mixed)`
 
 Initialize an `array`.
 
-#### Empty array:
+As an empty array:
 
     var arr = array();
 
-#### Array with values:
+As an array with values:
 
     var arr = array([1, 2, 3, 4]);
 
