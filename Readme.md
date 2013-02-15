@@ -1,4 +1,4 @@
-# array
+# array [![Build Status](https://secure.travis-ci.org/MatthewMueller/array.png?branch=master)](http://travis-ci.org/MatthewMueller/array)
 
 A better array for the browser and node.js. Supports events & many functional goodies.
 
