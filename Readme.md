@@ -28,11 +28,12 @@ users.on('add', function(user) {
   console.log('added ', user);
 });
 
-user.on('remove', function(user) {
+users.on('remove', function(user) {
   console.log('removed ', user);
 });
 
 users.push(user);
+users.splice(0, 3, user);
 ```
 
 ### Iteration:
