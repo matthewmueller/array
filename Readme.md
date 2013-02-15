@@ -82,22 +82,21 @@ Initialize an `array`.
 
 Mutator methods that modify the array will emit "add" and "remove" events.
 
-* pop: Removes the last element from an array and returns that element.
-* push: Adds one or more elements to the end of an array and returns the new length of the array.
-* reverse: Reverses the order of the elements of an array -- the first becomes the last, and the last becomes the first.
-* shift: Removes the first element from an array and returns that element.
-* sort: Sorts the elements of an array.
-* splice: Adds and/or removes elements from an array.
-* unshift: Adds one or more elements to the front of an array and returns the new length of the array.
+* `pop()`: Removes the last element from an array and returns that element.
+* `push(item, ...)`: Adds one or more elements to the end of an array and returns the new length of the array.
+* `reverse()`: Reverses the order of the elements of an array -- the first becomes the last, and the last becomes the first.
+* `shift()`: Removes the first element from an array and returns that element.
+* `sort()`: Sorts the elements of an array.
+* `splice(i, k, [item, ...])`: Adds and/or removes elements from an array.
+* `unshift(item, ...)`: Adds one or more elements to the front of an array and returns the new length of the array.
 
 #### Accessors:
 
-*concat: Returns a new array comprised of this array joined with other array(s) and/or value(s).
-* join: Joins all elements of an array into a string.
-* slice: Extracts a section of an array and returns a new array.
-* toString: Returns a string representing the array and its elements. Overrides the Object.prototype.toString method.
-* indexOf: Returns the first (least) index of an element within the array equal to the specified value, or -1 if none is found.
-* lastIndexOf: Returns the last (greatest) index of an element within the array equal to the specified value, or -1 if none is found.
+* `concat(arr)`: Returns a new array comprised of this array joined with other array(s) and/or value(s).
+* `join(str)`: Joins all elements of an array into a string.
+* `slice(i, k)`: Extracts a section of an array and returns a new array.
+* `toString()`: Returns a string representing the array and its elements. Overrides the Object.prototype.toString method.
+* `lastIndexOf(item)`: Returns the last (greatest) index of an element within the array equal to the specified value, or -1 if none is found.
 
 ### Iteration Methods:
 
@@ -253,13 +252,13 @@ Mutator methods that modify the array will emit "add" and "remove" events.
  })
 ```
 
-#### `.indexOf(obj)`
+#### `.indexOf(mixed)`
 
-  Determine the indexof `obj` or return `-1`.
+  Determine the indexof `mixed` or return `-1`.
 
-#### `.has(obj:Mixed)`
+#### `.has(mixed)`
 
-  Check if `obj` is present in this enumerable.
+  Check if `mixed` is present in this enumerable.
 
 #### `.reduce(fn, mixed)`
 
