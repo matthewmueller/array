@@ -52,7 +52,7 @@ fruits.find({ name : 'apple' }).color
 
 ## Design
 
-This library uses an array-like object to implement all it's methods. This is very similar to how jQuery lets you do: `$('.modal')[0]` and `$('p').length`.
+This library uses an array-like object to implement all its methods. This is very similar to how jQuery lets you do: `$('.modal')[0]` and `$('p').length`.
 
 One caveat with working with array-like objects is that you cannot manually set array indexes because the length value will not be updated. You will have to use the mutator methods provided like push, pop, etc.
 
