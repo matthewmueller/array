@@ -1,8 +1,8 @@
 {
   "name": "array",
   "repo": "matthewmueller/array",
-  "description": "a vocal array mixin",
-  "version": "0.1npm p.0",
+  "description": "a better array",
+  "version": "0.1.0",
   "keywords": [],
   "dependencies": {
     "component/emitter" : "*",
