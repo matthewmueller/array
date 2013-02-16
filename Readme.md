@@ -59,7 +59,7 @@ fruits.find({ name : 'apple' }).color
 
 This library uses an array-like object to implement all its methods. This is very similar to how jQuery lets you do: `$('.modal')[0]` and `$('p').length`.
 
-This library differs from `component/enumerable` in that it has events and does not wrap the array. To access the actual array in `component/enumerable` you have to call `.value()`. You can treat `array` just like an array, because it implements all the same methods.
+This library differs from `component/enumerable` in that it has events and does not wrap the array. To access the actual array in `component/enumerable` you have to call `.value()`. For the most part, you can treat `array` just like a real array, because it implements all the same methods.
 
 ## Caveats
 
