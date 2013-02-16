@@ -124,7 +124,7 @@ Mutator methods that modify the array will emit "add" and "remove" events.
 
 ### Iteration Methods:
 
-`array` implements most of the methods of [component/enumerable](https://github.com/component/enumerable). The documentation below and most of the functional code was originally written by [visionmedia](https://github.com/visionmedia).
+`array` implements most of the methods of [component/enumerable](https://github.com/component/enumerable). The documentation below was originally written by [visionmedia](https://github.com/visionmedia).
 
 #### `.each(fn)`
 
