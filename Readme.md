@@ -350,6 +350,12 @@ Mutator methods that modify the array will emit "add" and "remove" events.
 
   Return the last value, or last `n` values.
 
+## Benchmarks
+
+Benchmarks are preliminary but also promising:
+
+* native vs. array.js vs underscore.js: http://jsperf.com/native-vs-array-js-vs-underscore
+
 ## Run tests
 
     npm install .
