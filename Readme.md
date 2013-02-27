@@ -124,7 +124,7 @@ Mutator methods that modify the array will emit "add" and "remove" events.
 
 ### Iteration Methods:
 
-`array` iteration methods implements most of the methods of [component/enumerable](https://github.com/component/enumerable). The documentation below was originally written by [visionmedia](https://github.com/visionmedia).
+`array` implements most of the methods of [component/enumerable](https://github.com/component/enumerable). The documentation below was originally written by [visionmedia](https://github.com/visionmedia).
 
 #### `.each(fn)`
 
@@ -349,6 +349,12 @@ Mutator methods that modify the array will emit "add" and "remove" events.
 #### `.last([mixed])`
 
   Return the last value, or last `n` values.
+
+## Benchmarks
+
+Benchmarks are preliminary but also promising:
+
+* native vs. array.js vs underscore.js: http://jsperf.com/native-vs-array-js-vs-underscore
 
 ## Run tests
 
