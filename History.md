@@ -1,4 +1,10 @@
 
+0.1.2 / 2013-02-27
+==================
+
+  * remove github-style dependencies
+  * added .hash(key)
+
 0.1.1 / 2013-02-27
 ==================
 
