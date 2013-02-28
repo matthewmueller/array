@@ -350,6 +350,23 @@ Mutator methods that modify the array will emit "add" and "remove" events.
 
   Return the last value, or last `n` values.
 
+
+#### `.hash(key)`
+
+  Create a hash from the given `key`.
+
+```js
+var fruits = array();
+fruits.push({ name : "apple", color : "red" });
+fruits.push({ name : "pear", color : "green" });
+fruits.push({ name : "orange", color : "orange" });
+
+var obj = fruits.hash('name');
+obj.apple //=> { name : "apple", color : "red" }
+obj.pear //=> { name : "pear", color : "green" }
+obj.orange //=> { name : "orange", color : "orange" }
+```
+
 ## Benchmarks
 
 Benchmarks are preliminary but also promising:

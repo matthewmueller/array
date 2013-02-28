@@ -180,4 +180,13 @@ describe('enumerable', function () {
       assert(2 == i);
     });
   });
+
+  describe('hash', function () {
+    it('should create hashes from an array', function () {
+      var out = fruits.hash('name');
+      assert(fruits[0] === out.apple);
+      assert(fruits[1] === out.pear);
+      assert(fruits[2] === out.grape);
+    });
+  });
 });
