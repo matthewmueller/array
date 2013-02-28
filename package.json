@@ -17,14 +17,14 @@
   "license": "MIT",
   "readmeFilename": "Readme.md",
   "dependencies": {
-    "emitter": "component/emitter",
-    "to-function": "component/to-function"
+    "emitter-component": "~1.0.0",
+    "to-function": "~1.2.0"
   },
   "scripts": {
-    "test" : "make test"
+    "test": "make test"
   },
   "devDependencies": {
-    "mocha" : "*",
-    "better-assert" : "*"
+    "mocha": "*",
+    "better-assert": "*"
   }
 }
