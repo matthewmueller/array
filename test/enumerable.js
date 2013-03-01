@@ -189,4 +189,65 @@ describe('enumerable', function () {
       assert(fruits[2] === out.grape);
     });
   });
+
+  describe('sort', function () {
+    it('should work without args and numbers', function(){
+      var arr = array([4, 2, 1, 2, 3])
+      arr = arr.sort();
+      assert(1 === arr[0])
+      assert(2 === arr[1])
+      assert(2 === arr[2])
+      assert(3 === arr[3])
+      assert(4 === arr[4])
+    });
+
+    it('should work with functions', function () {
+      fruits.sort(function(a, b) {
+        if(a.calories < b.calories) return -1;
+        else if(a.calories > b.calories) return 1;
+        return 0
+      });
+
+      assert('grape' === fruits[0].name);
+      assert('apple' === fruits[1].name);
+      assert('pear' === fruits[2].name);
+    });
+
+    it('should support strings', function(){
+      fruits.sort('calories')
+      assert('grape' === fruits[0].name);
+      assert('apple' === fruits[1].name);
+      assert('pear' === fruits[2].name);
+    });
+
+    describe('descending direction', function () {
+      it('should support numbers', function(){
+        fruits.sort('calories', -1)
+        assert('pear' === fruits[0].name);
+        assert('apple' === fruits[1].name);
+        assert('grape' === fruits[2].name);
+      });
+
+      it('should support shorthand string', function(){
+        fruits.sort('calories', 'desc')
+        assert('pear' === fruits[0].name);
+        assert('apple' === fruits[1].name);
+        assert('grape' === fruits[2].name);
+      });
+
+      it('should support full string', function(){
+        fruits.sort('calories', 'descending')
+        assert('pear' === fruits[0].name);
+        assert('apple' === fruits[1].name);
+        assert('grape' === fruits[2].name);
+      });
+
+      it('should support booleans', function(){
+        fruits.sort('calories', false)
+        assert('pear' === fruits[0].name);
+        assert('apple' === fruits[1].name);
+        assert('grape' === fruits[2].name);
+      });
+    });
+  });
 });

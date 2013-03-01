@@ -131,9 +131,7 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   Iterate each value and invoke `fn(val, i)`.
 
 ```js
- users.each(function(val, i){
-
- })
+users.each(function(val, i){})
 ```
 
 #### `.map(fn|str)`
@@ -143,16 +141,16 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   Passing a callback function:
 
 ```js
- users.map(function(user){
-   return user.name.first
- })
+users.map(function(user){
+  return user.name.first
+})
 ```
 
 
   Passing a property string:
 
 ```js
- users.map('name.first')
+users.map('name.first')
 ```
 
 #### `.select(fn|str)`
@@ -160,21 +158,21 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   Select all values that return a truthy value of `fn(val, i)`. The argument passed in can either be a function or a string.
 
 ```js
- users.select(function(user){
-   return user.age > 20
- })
+users.select(function(user){
+  return user.age > 20
+})
 ```
 
   With a property:
 
 ```js
- items.select('complete')
+items.select('complete')
 ```
 
   With a condition:
 
 ```js
-  users.select('age > 20')
+users.select('age > 20')
 ```
 
 #### `.unique()`
@@ -182,7 +180,7 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   Select all unique values.
 
 ```js
- nums.unique()
+nums.unique()
 ```
 
 #### `.reject(fn|str|mixed)`
@@ -192,24 +190,57 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   Rejecting using a callback:
 
 ```js
- users.reject(function(user){
-   return user.age < 20
- })
+users.reject(function(user){
+  return user.age < 20
+})
 ```
 
 
   Rejecting with a property:
 
 ```js
- items.reject('complete')
+items.reject('complete')
 ```
 
 
   Rejecting values via `==`:
 
 ```js
- data.reject(null)
- users.reject(toni)
+data.reject(null)
+users.reject(toni)
+```
+
+#### `.sort([str|fn], [direction])`
+
+  Sorts the array
+
+Basic sort
+
+```js
+prices.sort()
+```
+
+Sort by the `created` key in ascending order. the following are equivalent:
+
+```js
+users.sort('created')
+users.sort('created', 'ascending')
+users.sort('created', 1)
+users.sort('created', true)
+```
+
+Sort in descending order. The following are equivalent:
+
+```js
+food.sort('calories', 'descending')
+food.sort('calories', -1)
+food.sort('calories', false)
+```
+
+Using a function:
+
+```js
+users.sort(function(user1, user2) {})
 ```
 
 #### `.compact()`
@@ -217,8 +248,8 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   Reject `null` and `undefined`.
 
 ```js
- [1, null, 5, undefined].compact()
- // => [1,5]
+[1, null, 5, undefined].compact()
+// => [1,5]
 ```
 
 #### `.find(fn)`
@@ -227,9 +258,9 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   otherwise return `undefined`.
 
 ```js
- users.find(function(user){
-   return user.role == 'admin'
- })
+users.find(function(user){
+  return user.role == 'admin'
+})
 ```
 
 #### `.findLast(fn)`
@@ -238,9 +269,9 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   otherwise return `undefined`.
 
 ```js
- users.findLast(function(user){
-   return user.role == 'admin'
- })
+users.findLast(function(user){
+  return user.role == 'admin'
+})
 ```
 
 #### `.none(fn|str)`
@@ -250,8 +281,8 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   For example ensuring that no pets are admins:
 
 ```js
- pets.none(function(p){ return p.admin })
- pets.none('admin')
+pets.none(function(p){ return p.admin })
+pets.none('admin')
 ```
 
 #### `.any(fn)`
@@ -261,9 +292,9 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   For example checking to see if any pets are ferrets:
 
 ```js
- pets.any(function(pet){
-   return pet.species == 'ferret'
- })
+pets.any(function(pet){
+  return pet.species == 'ferret'
+})
 ```
 
 #### `.count(fn)`
@@ -271,9 +302,9 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   Count the number of times `fn(val, i)` returns true.
 
 ```js
- var n = pets.count(function(pet){
-   return pet.species == 'ferret'
- })
+var n = pets.count(function(pet){
+  return pet.species == 'ferret'
+})
 ```
 
 #### `.indexOf(mixed)`
@@ -297,23 +328,23 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   With a callback function:
 
 ```js
- pets.max(function(pet){
-   return pet.age
- })
+pets.max(function(pet){
+  return pet.age
+})
 ```
 
 
   With property strings:
 
 ```js
- pets.max('age')
+pets.max('age')
 ```
 
 
   With immediate values:
 
 ```js
- nums.max()
+nums.max()
 ```
 
 #### `.sum(fn|str)`
@@ -323,33 +354,31 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   With a callback function:
 
 ```js
- pets.sum(function(pet){
-   return pet.age
- })
+pets.sum(function(pet){
+  return pet.age
+})
 ```
 
 
   With property strings:
 
 ```js
- pets.sum('age')
+pets.sum('age')
 ```
-
 
   With immediate values:
 
 ```js
- nums.sum()
+nums.sum()
 ```
 
 #### `.first([mixed])`
 
-  Return the first value, or first `n` values. If you pass in an object or a function, first will call `find(fn)`.
+  Return the first value, or first `n` values. If you pass in an object or a function, first will call `find`.
 
 #### `.last([mixed])`
 
-  Return the last value, or last `n` values.
-
+  Return the last value, or last `n` values. If you pass in an object or function, last will call `findLast`.
 
 #### `.hash(key)`
 

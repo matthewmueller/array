@@ -55,4 +55,15 @@ describe('array', function () {
       arr.push('hi');
     });
   });
+
+  describe('toArray', function() {
+    it('should create a real array out of array object', function(){
+      var orig = [ 3, 4, 6, 2 ],
+          arr = array(orig);
+
+      arr = arr.toArray();
+      assert(Array.isArray(arr));
+      assert(JSON.stringify(orig) === JSON.stringify(arr));
+    });
+  });
 });
