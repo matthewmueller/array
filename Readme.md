@@ -38,7 +38,7 @@ fruits.find({ name : 'apple' }).color
 ```
 
 ```js
-users.sort('name.first', 'descending')
+users.sort('name.last', 'descending')
 ```
 
 ### Events:
