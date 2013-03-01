@@ -48,11 +48,11 @@ var array = require('array'),
     users = array();
 
 users.on('add', function(user) {
-  console.log('added ', user);
+  console.log('added', user);
 });
 
 users.on('remove', function(user) {
-  console.log('removed ', user);
+  console.log('removed', user);
 });
 
 users.push(user);
