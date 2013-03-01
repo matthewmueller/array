@@ -56,6 +56,17 @@ describe('array', function () {
     });
   });
 
+  describe('toString', function() {
+    it('should look just like a real array', function() {
+      var orig = [1, 2, 3, 4],
+          arr = array(orig);
+
+      arr = arr.toString();
+      assert('string' == typeof arr);
+      assert(arr === orig.toString());
+    });
+  });
+
   describe('toArray', function() {
     it('should create a real array out of array object', function(){
       var orig = [ 3, 4, 6, 2 ],
