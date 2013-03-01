@@ -1,43 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>array.js by MatthewMueller</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>array.js by MatthewMueller</title>
   </head>
-
   <body>
-    <div id="container">
-      <div class="inner">
+    <div class="wrapper">
+      <header>
+        <h1>array.js</h1>
+        <p>A better array for the browser and node.js.</p>
 
-        <header>
-          <h1>array.js</h1>
-          <h2>A better array for the browser and node.js.</h2>
-        </header>
+        <p class="view"><a href="https://github.com/MatthewMueller/array">View the Project on GitHub <small>MatthewMueller/array</small></a></p>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/MatthewMueller/array/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/MatthewMueller/array/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/MatthewMueller/array" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
 
-        <hr>
-
-        <section id="main_content">
-          <h1>array</h1>
-
-<p>A better array for the browser and node.js. Supports events &amp; many functional goodies.</p>
-
-<p>The functional bits are based on the <a href="https://github.com/component/enumerable">Enumerable</a> component.</p>
-
-<h2>Installation</h2>
+        <ul>
+          <li><a href="https://github.com/MatthewMueller/array/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/MatthewMueller/array/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/MatthewMueller/array">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>Installation</h2>
 
 <h3>Node.js</h3>
 
@@ -56,21 +47,11 @@
 </li>
 <li>Production (4k w/ gzip): <a href="https://raw.github.com/MatthewMueller/array/master/dist/array.min.js">dist/array.js</a>
 </li>
-</ul><h2>Examples</h2>
+</ul><blockquote>
+<p>Note: if you use this library standalone, <code>array</code> will be attached to the window. You can access it with <code>window.array()</code> or just <code>array()</code>. Keep in mind javascript is case-sensitive and <code>Array()</code> will create a native array.</p>
+</blockquote>
 
-<h3>Events:</h3>
-
-<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'add'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'added '</span><span class="p">,</span> <span class="nx">user</span><span class="p">);</span>
-<span class="p">});</span>
-
-<span class="nx">users</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'remove'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'removed '</span><span class="p">,</span> <span class="nx">user</span><span class="p">);</span>
-<span class="p">});</span>
-
-<span class="nx">users</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">user</span><span class="p">);</span>
-<span class="nx">users</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="nx">user</span><span class="p">);</span>
-</pre></div>
+<h2>Examples</h2>
 
 <h3>Iteration:</h3>
 
@@ -84,22 +65,58 @@
 <div class="highlight"><pre><span class="nx">fruits</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span> <span class="nx">name</span> <span class="o">:</span> <span class="s1">'apple'</span> <span class="p">}).</span><span class="nx">color</span>
 </pre></div>
 
+<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'name.last'</span><span class="p">,</span> <span class="s1">'descending'</span><span class="p">)</span>
+</pre></div>
+
+<h3>Events:</h3>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">array</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'array'</span><span class="p">),</span>
+    <span class="nx">users</span> <span class="o">=</span> <span class="nx">array</span><span class="p">();</span>
+
+<span class="nx">users</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'add'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'added'</span><span class="p">,</span> <span class="nx">user</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">users</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'remove'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'removed'</span><span class="p">,</span> <span class="nx">user</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">users</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">user</span><span class="p">);</span>
+<span class="nx">users</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="nx">user</span><span class="p">);</span>
+</pre></div>
+
 <h2>Design</h2>
 
-<p>This library uses an array-like object to implement all it's methods. This is very similar to how jQuery lets you do: <code>$('.modal')[0]</code> and <code>$('p').length</code>.</p>
+<p>This library uses an array-like object to implement all its methods. This is very similar to how jQuery lets you do: <code>$('.modal')[0]</code> and <code>$('p').length</code>.</p>
 
-<p>One caveat with working with array-like objects is that you cannot manually set array indexes because the length value will not be updated. You will have to use the mutator methods provided like push, pop, etc.</p>
+<p>This library differs from <code>component/enumerable</code> in that it has events and does not wrap the array. To access the actual array in <code>component/enumerable</code> you have to call <code>.value()</code>. For the most part, you can treat <code>array</code> just like a real array, because it implements all the same methods.</p>
 
-<p>This library differs from <code>component/enumerable</code> in that it has events and does not wrap the array. To access the actual array in enumerable you had to call <code>.value()</code>. You can treat <code>array</code>, just like an array, because it implements all the same methods.</p>
+<h2>Caveats</h2>
+
+<p>When working with <code>array</code> it's important to keep in mind that <code>array</code> is not an actual Array, but an array-like object. There are a few caveats that come with this data type:</p>
+
+<ul>
+<li>you cannot manually set array indexes because the length value will not be updated. You will have to use the mutator methods provided like push, pop, etc.</li>
+<li>
+<code>arr instanceof Array</code> will return <code>false</code>. <code>arr instanceof Object</code> will return <code>true</code>. So there may be some interoperability issues if you try to blindly pass these arrays through other libraries.</li>
+</ul><p>Keep in mind both these issues are also present when working with jQuery objects as well as Backbone Collections.</p>
 
 <h2>Events</h2>
 
 <ul>
 <li>
-<code>add</code> (item, ...) - emitted when items are added to the array (push, unshift, splice)</li>
+<code>add</code> (item) - emitted when items are added to the array (<code>push</code>, <code>unshift</code>, <code>splice</code>)</li>
 <li>
-<code>remove</code> (item, ...) - emitted when items are removed from the array (pop, shift, splice)</li>
-</ul><h2>API</h2>
+<code>remove</code> (item) - emitted when items are removed from the array (<code>pop</code>, <code>shift</code>, <code>splice</code>)</li>
+</ul><p>An event will be emitted for each item you add or remove. So if you do something like:</p>
+
+<div class="highlight"><pre><span class="nx">fruits</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'add'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{});</span>
+<span class="nx">fruits</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'pear'</span><span class="p">)</span>
+</pre></div>
+
+<p>The <code>add</code> event will be fired 3 times with the <code>item</code> being <code>"apple"</code>, <code>"orange"</code>, and <code>"pear"</code> respectively.</p>
+
+<h2>API</h2>
 
 <h4><code>array(mixed)</code></h4>
 
@@ -153,15 +170,13 @@
 <code>lastIndexOf(item)</code>: Returns the last (greatest) index of an element within the array equal to the specified value, or -1 if none is found.</li>
 </ul><h3>Iteration Methods:</h3>
 
-<p><code>array</code> iteration methods implements most of the methods of <a href="https://github.com/component/enumerable">component/enumerable</a>. The documentation below was originally written by <a href="https://github.com/visionmedia">visionmedia</a>.</p>
+<p><code>array</code> implements most of the methods of <a href="https://github.com/component/enumerable">component/enumerable</a>. The documentation below was originally written by <a href="https://github.com/visionmedia">visionmedia</a>.</p>
 
 <h4><code>.each(fn)</code></h4>
 
 <p>Iterate each value and invoke <code>fn(val, i)</code>.</p>
 
-<div class="highlight"><pre> <span class="nx">users</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">i</span><span class="p">){</span>
-
- <span class="p">})</span>
+<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">i</span><span class="p">){})</span>
 </pre></div>
 
 <h4><code>.map(fn|str)</code></h4>
@@ -170,40 +185,40 @@
 
 <p>Passing a callback function:</p>
 
-<div class="highlight"><pre> <span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">){</span>
-   <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">first</span>
- <span class="p">})</span>
+<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">){</span>
+  <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">first</span>
+<span class="p">})</span>
 </pre></div>
 
 <p>Passing a property string:</p>
 
-<div class="highlight"><pre> <span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="s1">'name.first'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="s1">'name.first'</span><span class="p">)</span>
 </pre></div>
 
 <h4><code>.select(fn|str)</code></h4>
 
 <p>Select all values that return a truthy value of <code>fn(val, i)</code>. The argument passed in can either be a function or a string.</p>
 
-<div class="highlight"><pre> <span class="nx">users</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">){</span>
-   <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">age</span> <span class="o">&gt;</span> <span class="mi">20</span>
- <span class="p">})</span>
+<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">){</span>
+  <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">age</span> <span class="o">&gt;</span> <span class="mi">20</span>
+<span class="p">})</span>
 </pre></div>
 
 <p>With a property:</p>
 
-<div class="highlight"><pre> <span class="nx">items</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'complete'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="nx">items</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'complete'</span><span class="p">)</span>
 </pre></div>
 
 <p>With a condition:</p>
 
-<div class="highlight"><pre>  <span class="nx">users</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'age &gt; 20'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'age &gt; 20'</span><span class="p">)</span>
 </pre></div>
 
 <h4><code>.unique()</code></h4>
 
 <p>Select all unique values.</p>
 
-<div class="highlight"><pre> <span class="nx">nums</span><span class="p">.</span><span class="nx">unique</span><span class="p">()</span>
+<div class="highlight"><pre><span class="nx">nums</span><span class="p">.</span><span class="nx">unique</span><span class="p">()</span>
 </pre></div>
 
 <h4><code>.reject(fn|str|mixed)</code></h4>
@@ -212,28 +227,59 @@
 
 <p>Rejecting using a callback:</p>
 
-<div class="highlight"><pre> <span class="nx">users</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">){</span>
-   <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">age</span> <span class="o">&lt;</span> <span class="mi">20</span>
- <span class="p">})</span>
+<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">){</span>
+  <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">age</span> <span class="o">&lt;</span> <span class="mi">20</span>
+<span class="p">})</span>
 </pre></div>
 
 <p>Rejecting with a property:</p>
 
-<div class="highlight"><pre> <span class="nx">items</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="s1">'complete'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="nx">items</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="s1">'complete'</span><span class="p">)</span>
 </pre></div>
 
 <p>Rejecting values via <code>==</code>:</p>
 
-<div class="highlight"><pre> <span class="nx">data</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="kc">null</span><span class="p">)</span>
- <span class="nx">users</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">toni</span><span class="p">)</span>
+<div class="highlight"><pre><span class="nx">data</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="kc">null</span><span class="p">)</span>
+<span class="nx">users</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">toni</span><span class="p">)</span>
+</pre></div>
+
+<h4><code>.sort([str|fn], [direction])</code></h4>
+
+<p>Sorts the array</p>
+
+<p>Basic sort:</p>
+
+<div class="highlight"><pre><span class="nx">prices</span><span class="p">.</span><span class="nx">sort</span><span class="p">()</span>
+</pre></div>
+
+<p>Sort by the <code>created</code> key in ascending order. the following are equivalent:</p>
+
+<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'created'</span><span class="p">)</span>
+<span class="nx">users</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'created'</span><span class="p">,</span> <span class="s1">'ascending'</span><span class="p">)</span>
+<span class="nx">users</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'created'</span><span class="p">,</span> <span class="s1">'asc'</span><span class="p">)</span>
+<span class="nx">users</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'created'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nx">users</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'created'</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+</pre></div>
+
+<p>Sort in descending order. The following are equivalent:</p>
+
+<div class="highlight"><pre><span class="nx">food</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'calories'</span><span class="p">,</span> <span class="s1">'descending'</span><span class="p">)</span>
+<span class="nx">food</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'calories'</span><span class="p">,</span> <span class="s1">'desc'</span><span class="p">)</span>
+<span class="nx">food</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'calories'</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="nx">food</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'calories'</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
+</pre></div>
+
+<p>Using a function:</p>
+
+<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">user1</span><span class="p">,</span> <span class="nx">user2</span><span class="p">)</span> <span class="p">{})</span>
 </pre></div>
 
 <h4><code>.compact()</code></h4>
 
 <p>Reject <code>null</code> and <code>undefined</code>.</p>
 
-<div class="highlight"><pre> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">].</span><span class="nx">compact</span><span class="p">()</span>
- <span class="c1">// =&gt; [1,5]</span>
+<div class="highlight"><pre><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">].</span><span class="nx">compact</span><span class="p">()</span>
+<span class="c1">// =&gt; [1,5]</span>
 </pre></div>
 
 <h4><code>.find(fn)</code></h4>
@@ -241,9 +287,9 @@
 <p>Return the first value when <code>fn(val, i)</code> is truthy,
   otherwise return <code>undefined</code>.</p>
 
-<div class="highlight"><pre> <span class="nx">users</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">){</span>
-   <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">role</span> <span class="o">==</span> <span class="s1">'admin'</span>
- <span class="p">})</span>
+<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">){</span>
+  <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">role</span> <span class="o">==</span> <span class="s1">'admin'</span>
+<span class="p">})</span>
 </pre></div>
 
 <h4><code>.findLast(fn)</code></h4>
@@ -251,9 +297,9 @@
 <p>Return the last value when <code>fn(val, i)</code> is truthy,
   otherwise return <code>undefined</code>.</p>
 
-<div class="highlight"><pre> <span class="nx">users</span><span class="p">.</span><span class="nx">findLast</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">){</span>
-   <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">role</span> <span class="o">==</span> <span class="s1">'admin'</span>
- <span class="p">})</span>
+<div class="highlight"><pre><span class="nx">users</span><span class="p">.</span><span class="nx">findLast</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">){</span>
+  <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">role</span> <span class="o">==</span> <span class="s1">'admin'</span>
+<span class="p">})</span>
 </pre></div>
 
 <h4><code>.none(fn|str)</code></h4>
@@ -262,8 +308,8 @@
 
 <p>For example ensuring that no pets are admins:</p>
 
-<div class="highlight"><pre> <span class="nx">pets</span><span class="p">.</span><span class="nx">none</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">){</span> <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">admin</span> <span class="p">})</span>
- <span class="nx">pets</span><span class="p">.</span><span class="nx">none</span><span class="p">(</span><span class="s1">'admin'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="nx">pets</span><span class="p">.</span><span class="nx">none</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">){</span> <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">admin</span> <span class="p">})</span>
+<span class="nx">pets</span><span class="p">.</span><span class="nx">none</span><span class="p">(</span><span class="s1">'admin'</span><span class="p">)</span>
 </pre></div>
 
 <h4><code>.any(fn)</code></h4>
@@ -272,18 +318,18 @@
 
 <p>For example checking to see if any pets are ferrets:</p>
 
-<div class="highlight"><pre> <span class="nx">pets</span><span class="p">.</span><span class="nx">any</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">pet</span><span class="p">){</span>
-   <span class="k">return</span> <span class="nx">pet</span><span class="p">.</span><span class="nx">species</span> <span class="o">==</span> <span class="s1">'ferret'</span>
- <span class="p">})</span>
+<div class="highlight"><pre><span class="nx">pets</span><span class="p">.</span><span class="nx">any</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">pet</span><span class="p">){</span>
+  <span class="k">return</span> <span class="nx">pet</span><span class="p">.</span><span class="nx">species</span> <span class="o">==</span> <span class="s1">'ferret'</span>
+<span class="p">})</span>
 </pre></div>
 
 <h4><code>.count(fn)</code></h4>
 
 <p>Count the number of times <code>fn(val, i)</code> returns true.</p>
 
-<div class="highlight"><pre> <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nx">pets</span><span class="p">.</span><span class="nx">count</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">pet</span><span class="p">){</span>
-   <span class="k">return</span> <span class="nx">pet</span><span class="p">.</span><span class="nx">species</span> <span class="o">==</span> <span class="s1">'ferret'</span>
- <span class="p">})</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nx">pets</span><span class="p">.</span><span class="nx">count</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">pet</span><span class="p">){</span>
+  <span class="k">return</span> <span class="nx">pet</span><span class="p">.</span><span class="nx">species</span> <span class="o">==</span> <span class="s1">'ferret'</span>
+<span class="p">})</span>
 </pre></div>
 
 <h4><code>.indexOf(mixed)</code></h4>
@@ -306,19 +352,19 @@
 
 <p>With a callback function:</p>
 
-<div class="highlight"><pre> <span class="nx">pets</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">pet</span><span class="p">){</span>
-   <span class="k">return</span> <span class="nx">pet</span><span class="p">.</span><span class="nx">age</span>
- <span class="p">})</span>
+<div class="highlight"><pre><span class="nx">pets</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">pet</span><span class="p">){</span>
+  <span class="k">return</span> <span class="nx">pet</span><span class="p">.</span><span class="nx">age</span>
+<span class="p">})</span>
 </pre></div>
 
 <p>With property strings:</p>
 
-<div class="highlight"><pre> <span class="nx">pets</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="s1">'age'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="nx">pets</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="s1">'age'</span><span class="p">)</span>
 </pre></div>
 
 <p>With immediate values:</p>
 
-<div class="highlight"><pre> <span class="nx">nums</span><span class="p">.</span><span class="nx">max</span><span class="p">()</span>
+<div class="highlight"><pre><span class="nx">nums</span><span class="p">.</span><span class="nx">max</span><span class="p">()</span>
 </pre></div>
 
 <h4><code>.sum(fn|str)</code></h4>
@@ -327,28 +373,56 @@
 
 <p>With a callback function:</p>
 
-<div class="highlight"><pre> <span class="nx">pets</span><span class="p">.</span><span class="nx">sum</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">pet</span><span class="p">){</span>
-   <span class="k">return</span> <span class="nx">pet</span><span class="p">.</span><span class="nx">age</span>
- <span class="p">})</span>
+<div class="highlight"><pre><span class="nx">pets</span><span class="p">.</span><span class="nx">sum</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">pet</span><span class="p">){</span>
+  <span class="k">return</span> <span class="nx">pet</span><span class="p">.</span><span class="nx">age</span>
+<span class="p">})</span>
 </pre></div>
 
 <p>With property strings:</p>
 
-<div class="highlight"><pre> <span class="nx">pets</span><span class="p">.</span><span class="nx">sum</span><span class="p">(</span><span class="s1">'age'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="nx">pets</span><span class="p">.</span><span class="nx">sum</span><span class="p">(</span><span class="s1">'age'</span><span class="p">)</span>
 </pre></div>
 
 <p>With immediate values:</p>
 
-<div class="highlight"><pre> <span class="nx">nums</span><span class="p">.</span><span class="nx">sum</span><span class="p">()</span>
+<div class="highlight"><pre><span class="nx">nums</span><span class="p">.</span><span class="nx">sum</span><span class="p">()</span>
 </pre></div>
 
 <h4><code>.first([mixed])</code></h4>
 
-<p>Return the first value, or first <code>n</code> values. If you pass in an object or a function, first will call <code>find(fn)</code>.</p>
+<p>Return the first value, or first <code>n</code> values. If you pass in an object or a function, first will call <code>find</code>.</p>
 
 <h4><code>.last([mixed])</code></h4>
 
-<p>Return the last value, or last <code>n</code> values.</p>
+<p>Return the last value, or last <code>n</code> values. If you pass in an object or function, last will call <code>findLast</code>.</p>
+
+<h4><code>.hash(key)</code></h4>
+
+<p>Create a hash from the given <code>key</code>.</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">fruits</span> <span class="o">=</span> <span class="nx">array</span><span class="p">();</span>
+<span class="nx">fruits</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span> <span class="nx">name</span> <span class="o">:</span> <span class="s2">"apple"</span><span class="p">,</span> <span class="nx">color</span> <span class="o">:</span> <span class="s2">"red"</span> <span class="p">});</span>
+<span class="nx">fruits</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span> <span class="nx">name</span> <span class="o">:</span> <span class="s2">"pear"</span><span class="p">,</span> <span class="nx">color</span> <span class="o">:</span> <span class="s2">"green"</span> <span class="p">});</span>
+<span class="nx">fruits</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span> <span class="nx">name</span> <span class="o">:</span> <span class="s2">"orange"</span><span class="p">,</span> <span class="nx">color</span> <span class="o">:</span> <span class="s2">"orange"</span> <span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">fruits</span><span class="p">.</span><span class="nx">hash</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">apple</span> <span class="c1">//=&gt; { name : "apple", color : "red" }</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">pear</span> <span class="c1">//=&gt; { name : "pear", color : "green" }</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">orange</span> <span class="c1">//=&gt; { name : "orange", color : "orange" }</span>
+</pre></div>
+
+<h2>Benchmarks</h2>
+
+<p>Benchmarks are preliminary but also promising:</p>
+
+<ul>
+<li>native vs. array.js vs underscore.js: <a href="http://jsperf.com/native-vs-array-js-vs-underscore">http://jsperf.com/native-vs-array-js-vs-underscore</a>
+</li>
+</ul><h2>Run tests</h2>
+
+<pre><code>npm install .
+npm test
+</code></pre>
 
 <h2>License</h2>
 
@@ -361,14 +435,14 @@
 <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 
 <p>THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-        </section>
-
-        <footer>
-          array.js is maintained by <a href="https://github.com/MatthewMueller">MatthewMueller</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-                  <script type="text/javascript">
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/MatthewMueller">MatthewMueller</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -379,7 +453,5 @@
             } catch(err) {}
           </script>
 
-      </div>
-    </div>
   </body>
 </html>
