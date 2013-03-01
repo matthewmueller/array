@@ -214,7 +214,7 @@ users.reject(toni)
 
   Sorts the array
 
-Basic sort
+Basic sort:
 
 ```js
 prices.sort()
