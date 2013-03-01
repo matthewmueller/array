@@ -1,6 +1,6 @@
 {
   "name": "array.js",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "a vocal, functional array",
   "main": "array.js",
   "repository": {

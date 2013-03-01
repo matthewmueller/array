@@ -1,4 +1,12 @@
 
+0.2.0 / 2013-02-28
+==================
+
+  * fixed toString
+  * added toArray()
+  * added sort(str)
+  * readme cleanup
+
 0.1.2 / 2013-02-27
 ==================
 
