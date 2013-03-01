@@ -225,6 +225,7 @@ Sort by the `created` key in ascending order. the following are equivalent:
 ```js
 users.sort('created')
 users.sort('created', 'ascending')
+users.sort('created', 'asc')
 users.sort('created', 1)
 users.sort('created', true)
 ```
@@ -233,6 +234,7 @@ Sort in descending order. The following are equivalent:
 
 ```js
 food.sort('calories', 'descending')
+food.sort('calories', 'desc')
 food.sort('calories', -1)
 food.sort('calories', false)
 ```
