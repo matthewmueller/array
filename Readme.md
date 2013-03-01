@@ -23,6 +23,24 @@ The functional bits are based off the [Enumerable](https://github.com/component/
 
 ## Examples
 
+### Iteration:
+
+```js
+users
+  .map('friends')
+  .select('age > 20')
+  .map('name.first')
+  .select(/^T/)
+```
+
+```js
+fruits.find({ name : 'apple' }).color
+```
+
+```js
+users.sort('name.first', 'descending')
+```
+
 ### Events:
 
 ```js
@@ -39,20 +57,6 @@ users.on('remove', function(user) {
 
 users.push(user);
 users.splice(0, 3, user);
-```
-
-### Iteration:
-
-```js
-users
-  .map('friends')
-  .select('age > 20')
-  .map('name.first')
-  .select(/^T/)
-```
-
-```js
-fruits.find({ name : 'apple' }).color
 ```
 
 ## Design
