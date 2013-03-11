@@ -401,6 +401,14 @@ obj.pear //=> { name : "pear", color : "green" }
 obj.orange //=> { name : "orange", color : "orange" }
 ```
 
+#### toJSON()
+
+Return an array. If array contains objects that implement `,toJSON()`, array.js will call `obj.toJSON()` on each item. Otherwise return the contents.
+
+#### toArray()
+
+Returns an native array.
+
 ## Benchmarks
 
 Benchmarks are preliminary but also promising:
