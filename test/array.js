@@ -86,5 +86,15 @@ describe('array', function () {
       assert(Array.isArray(arr));
       assert(JSON.stringify(orig) === JSON.stringify(arr));
     });
+
+    it('should call toJSON on objects if possible', function() {
+      var orig = [{a: 'abc', toJSON: function() { return "Hello" }},
+                  {a: 'abc', toJSON: function() { return "World" }}],
+          arr = array(orig);
+
+      arr = arr.toJSON();
+      assert(Array.isArray(arr));
+      assert(JSON.stringify(["Hello", "World"]) === JSON.stringify(arr));
+    });
   });
 });
