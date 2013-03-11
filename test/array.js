@@ -77,4 +77,14 @@ describe('array', function () {
       assert(JSON.stringify(orig) === JSON.stringify(arr));
     });
   });
+
+  describe('toJSON', function() {
+    it('should return a JSON representation of the array', function(){
+      var orig = [{a: 'abc', b: 123}, {a: 'def', b: 456}],
+          arr = array(orig);
+      arr = arr.toArray();
+      assert(Array.isArray(arr));
+      assert(JSON.stringify(orig) === JSON.stringify(arr));
+    });
+  });
 });
