@@ -97,4 +97,14 @@ describe('array', function () {
       assert(JSON.stringify(["Hello", "World"]) === JSON.stringify(arr));
     });
   });
+
+  describe('cast', function() {
+    it('casts items to class when they are added', function() {
+      var arr = array();
+      arr.castItemsTo(Date);
+      arr.push('1/1/91');
+      assert(arr[0] instanceof Date);
+    });
+  });
+
 });
