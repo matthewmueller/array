@@ -97,4 +97,21 @@ describe('array', function () {
       assert(JSON.stringify(["Hello", "World"]) === JSON.stringify(arr));
     });
   });
+
+  describe('findAndRemove', function() {
+    it('should remove an item if found', function() {
+      var orig = [{id: 'id-1', name: 'One'},{id: 'id-2', name: 'Two'}]
+          arr = array(orig);
+      var removed = arr.findAndRemove({name: 'Two'});
+      assert(arr.length === 1);
+      assert(removed.id === 'id-2');
+    });
+    it('does nothing if not found', function() {
+      var orig = [{id: 'id-1', name: 'One'},{id: 'id-2', name: 'Two'}]
+          arr = array(orig);
+      var removed = arr.findAndRemove({name: 'Twoo'});
+      assert(arr.length === 2);
+      assert(removed === undefined);
+    });
+  });
 });
