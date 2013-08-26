@@ -18,6 +18,7 @@
   "readmeFilename": "Readme.md",
   "dependencies": {
     "emitter-component": "~1.0.0",
+    "enumerable-component": "0.3.1",
     "to-function": "~1.2.0"
   },
   "scripts": {
