@@ -1,4 +1,4 @@
-# array [![Build Status](https://secure.travis-ci.org/MatthewMueller/array.png?branch=master)](http://travis-ci.org/MatthewMueller/array)
+# array [![Build Status](https://secure.travis-ci.org/MatthewMueller/array.png?branch=master)](http://travis-ci.org/MatthewMueller/array) [![Build Status](https://david-dm.org/MatthewMueller/array.png)](https://david-dm.org/MatthewMueller/array) [![NPM version](https://badge.fury.io/js/array.js.png)](http://badge.fury.io/js/array.js)
 
 A better array for the browser and node.js. Supports events & many functional goodies.
 
