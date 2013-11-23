@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "component/emitter" : "*",
-    "component/to-function" : "*"
+    "matthewmueller/to-function" : "*"
   },
   "development": {},
   "license": "MIT",
