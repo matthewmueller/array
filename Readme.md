@@ -28,7 +28,7 @@ The functional bits are based off the [Enumerable](https://github.com/component/
 ```js
 users
   .map('friends')
-  .select('age > 20')
+  .select('age > 20 && age < 30')
   .map('name.first')
   .select(/^T/)
 ```
