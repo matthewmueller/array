@@ -18,7 +18,7 @@
   "readmeFilename": "Readme.md",
   "dependencies": {
     "emitter-component": "~1.0.0",
-    "to-function": "~1.2.0"
+    "to-function": "git://github.com/component/to-function.git#getter/fns"
   },
   "scripts": {
     "test": "make test"
