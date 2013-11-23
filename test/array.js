@@ -39,7 +39,10 @@ describe('array', function () {
 
     it('should emit "remove" events', function() {
       arr.push('1', '2');
-      arr.on('remove', function(v) { assert('2' === v); });
+      arr.on('remove', function(v, i) {
+        assert('2' === v);
+        assert(1 === i);
+      });
       arr.pop();
     });
   });
@@ -51,8 +54,83 @@ describe('array', function () {
     });
 
     it('should emit "add" events', function(){
-      arr.on('add', function(v) { assert('hi' === v); });
-      arr.push('hi');
+      var calls = 0;
+      arr.on('add', function(v, i) {
+        switch (calls++) {
+          case 0:
+            assert('hi' === v);
+            assert(0 === i);
+            break;
+          case 1:
+            assert('world' === v);
+            assert(1 === i);
+            break;
+        }
+      });
+      arr.push('hi', 'world');
+    });
+  });
+
+  describe('shift', function () {
+    it('should emit "remove" events', function () {
+      arr.push('1', '2');
+      arr.on('remove', function (v, i) {
+        assert('1' === v);
+        assert(0 === i);
+      });
+      arr.shift();
+    });
+  });
+
+  describe('unshift', function () {
+    it('should emit "add" events', function () {
+      var calls = 0;
+      arr.on('add', function(v, i) {
+        switch (calls++) {
+          case 0:
+            assert('hi' === v);
+            assert(0 === i);
+            break;
+          case 1:
+            assert('world' === v);
+            assert(1 === i);
+            break;
+        }
+      });
+      arr.unshift('hi', 'world');
+    });
+  });
+
+  describe('splice', function () {
+    it('should emit "add" and "remove" events', function () {
+      arr.push('1', '2', '3', '4');
+      var remcalls = 0;
+      arr.on('remove', function(v, i) {
+        switch (remcalls++) {
+          case 0:
+            assert('2' === v);
+            assert(1 === i);
+            break;
+          case 1:
+            assert('3' === v);
+            assert(2 === i);
+            break;
+        }
+      });
+      var addcalls = 0;
+      arr.on('add', function(v, i) {
+        switch (addcalls++) {
+          case 0:
+            assert('2.' === v);
+            assert(1 === i);
+            break;
+          case 1:
+            assert('3.' === v);
+            assert(2 === i);
+            break;
+        }
+      });
+      arr.splice(1, 2, '2.', '3.');
     });
   });
 
