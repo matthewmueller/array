@@ -1,12 +1,5 @@
 ;(function(){
 
-
-/**
- * hasOwnProperty.
- */
-
-var has = Object.prototype.hasOwnProperty;
-
 /**
  * Require the given path.
  *
@@ -34,10 +27,14 @@ function require(path, parent, orig) {
   // perform real require()
   // by invoking the module's
   // registered function
-  if (!module.exports) {
-    module.exports = {};
-    module.client = module.component = true;
-    module.call(this, module.exports, require.relative(resolved), module);
+  if (!module._resolving && !module.exports) {
+    var mod = {};
+    mod.exports = {};
+    mod.client = mod.component = true;
+    module._resolving = true;
+    module.call(this, mod.exports, require.relative(resolved), mod);
+    delete module._resolving;
+    module.exports = mod.exports;
   }
 
   return module.exports;
@@ -71,7 +68,6 @@ require.aliases = {};
 
 require.resolve = function(path) {
   if (path.charAt(0) === '/') path = path.slice(1);
-  var index = path + '/index.js';
 
   var paths = [
     path,
@@ -83,11 +79,8 @@ require.resolve = function(path) {
 
   for (var i = 0; i < paths.length; i++) {
     var path = paths[i];
-    if (has.call(require.modules, path)) return path;
-  }
-
-  if (has.call(require.aliases, index)) {
-    return require.aliases[index];
+    if (require.modules.hasOwnProperty(path)) return path;
+    if (require.aliases.hasOwnProperty(path)) return require.aliases[path];
   }
 };
 
@@ -140,7 +133,7 @@ require.register = function(path, definition) {
  */
 
 require.alias = function(from, to) {
-  if (!has.call(require.modules, from)) {
+  if (!require.modules.hasOwnProperty(from)) {
     throw new Error('Failed to alias "' + from + '", it does not exist');
   }
   require.aliases[to] = from;
@@ -202,12 +195,27 @@ require.relative = function(parent) {
    */
 
   localRequire.exists = function(path) {
-    return has.call(require.modules, localRequire.resolve(path));
+    return require.modules.hasOwnProperty(localRequire.resolve(path));
   };
 
   return localRequire;
 };
+require.register("component-indexof/index.js", function(exports, require, module){
+module.exports = function(arr, obj){
+  if (arr.indexOf) return arr.indexOf(obj);
+  for (var i = 0; i < arr.length; ++i) {
+    if (arr[i] === obj) return i;
+  }
+  return -1;
+};
+});
 require.register("component-emitter/index.js", function(exports, require, module){
+
+/**
+ * Module dependencies.
+ */
+
+var index = require('indexof');
 
 /**
  * Expose `Emitter`.
@@ -217,7 +225,7 @@ module.exports = Emitter;
 
 /**
  * Initialize a new `Emitter`.
- * 
+ *
  * @api public
  */
 
@@ -249,7 +257,8 @@ function mixin(obj) {
  * @api public
  */
 
-Emitter.prototype.on = function(event, fn){
+Emitter.prototype.on =
+Emitter.prototype.addEventListener = function(event, fn){
   this._callbacks = this._callbacks || {};
   (this._callbacks[event] = this._callbacks[event] || [])
     .push(fn);
@@ -290,8 +299,19 @@ Emitter.prototype.once = function(event, fn){
  * @api public
  */
 
-Emitter.prototype.off = function(event, fn){
+Emitter.prototype.off =
+Emitter.prototype.removeListener =
+Emitter.prototype.removeAllListeners =
+Emitter.prototype.removeEventListener = function(event, fn){
   this._callbacks = this._callbacks || {};
+
+  // all
+  if (0 == arguments.length) {
+    this._callbacks = {};
+    return this;
+  }
+
+  // specific event
   var callbacks = this._callbacks[event];
   if (!callbacks) return this;
 
@@ -302,7 +322,7 @@ Emitter.prototype.off = function(event, fn){
   }
 
   // remove specific handler
-  var i = callbacks.indexOf(fn._off || fn);
+  var i = index(callbacks, fn._off || fn);
   if (~i) callbacks.splice(i, 1);
   return this;
 };
@@ -312,7 +332,7 @@ Emitter.prototype.off = function(event, fn){
  *
  * @param {String} event
  * @param {Mixed} ...
- * @return {Emitter} 
+ * @return {Emitter}
  */
 
 Emitter.prototype.emit = function(event){
@@ -355,9 +375,105 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
+});
+require.register("component-props/index.js", function(exports, require, module){
+/**
+ * Global Names
+ */
+
+var globals = /\b(Array|Date|Object|Math|JSON)\b/g;
+
+/**
+ * Return immediate identifiers parsed from `str`.
+ *
+ * @param {String} str
+ * @param {String|Function} map function or prefix
+ * @return {Array}
+ * @api public
+ */
+
+module.exports = function(str, fn){
+  var p = unique(props(str));
+  if (fn && 'string' == typeof fn) fn = prefixed(fn);
+  if (fn) return map(str, p, fn);
+  return p;
+};
+
+/**
+ * Return immediate identifiers in `str`.
+ *
+ * @param {String} str
+ * @return {Array}
+ * @api private
+ */
+
+function props(str) {
+  return str
+    .replace(/\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\//g, '')
+    .replace(globals, '')
+    .match(/[a-zA-Z_]\w*/g)
+    || [];
+}
+
+/**
+ * Return `str` with `props` mapped with `fn`.
+ *
+ * @param {String} str
+ * @param {Array} props
+ * @param {Function} fn
+ * @return {String}
+ * @api private
+ */
+
+function map(str, props, fn) {
+  var re = /\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\/|[a-zA-Z_]\w*/g;
+  return str.replace(re, function(_){
+    if ('(' == _[_.length - 1]) return fn(_);
+    if (!~props.indexOf(_)) return _;
+    return fn(_);
+  });
+}
+
+/**
+ * Return unique array.
+ *
+ * @param {Array} arr
+ * @return {Array}
+ * @api private
+ */
+
+function unique(arr) {
+  var ret = [];
+
+  for (var i = 0; i < arr.length; i++) {
+    if (~ret.indexOf(arr[i])) continue;
+    ret.push(arr[i]);
+  }
+
+  return ret;
+}
+
+/**
+ * Map with prefix `str`.
+ */
+
+function prefixed(str) {
+  return function(_){
+    return str + _;
+  };
+}
 
 });
 require.register("component-to-function/index.js", function(exports, require, module){
+/**
+ * Module Dependencies
+ */
+
+try {
+  var expr = require('props');
+} catch(e) {
+  var expr = require('props-component');
+}
 
 /**
  * Expose `toFunction()`.
@@ -428,8 +544,8 @@ function stringToFunction(str) {
   // immediate such as "> 20"
   if (/^ *\W+/.test(str)) return new Function('_', 'return _ ' + str);
 
-  // properties such as "name.first" or "age > 18"
-  return new Function('_', 'return _.' + str);
+  // properties such as "name.first" or "age > 18" or "age > 18 && age < 36"
+  return new Function('_', 'return ' + get(str));
 }
 
 /**
@@ -457,6 +573,28 @@ function objectToFunction(obj) {
   }
 }
 
+/**
+ * Built the getter function. Supports getter style functions
+ *
+ * @param {String} str
+ * @return {String}
+ * @api private
+ */
+
+function get(str) {
+  var props = expr(str);
+  if (!props.length) return '_.' + str;
+
+  var val;
+  for(var i = 0, prop; prop = props[i]; i++) {
+    val = '_.' + prop;
+    val = "('function' == typeof " + val + " ? " + val + "() : " + val + ")";
+    str = str.replace(new RegExp(prop, 'g'), val);
+  }
+
+  return str;
+}
+
 });
 require.register("array/index.js", function(exports, require, module){
 module.exports = require('./lib/array');
@@ -467,9 +605,23 @@ require.register("array/lib/array.js", function(exports, require, module){
  * Module dependencies
  */
 
-var Emitter = require('emitter'),
-    Enumerable = require('./enumerable'),
+var Enumerable = require('./enumerable'),
     proto = Array.prototype;
+
+/**
+ * Emitter
+ *
+ * TODO: remove once this issue gets resolved:
+ * https://github.com/component/component/issues/212
+ *
+ */
+
+var Emitter;
+try {
+  Emitter = require('emitter');
+} catch(e) {
+  Emitter = require('emitter-component');
+}
 
 /*
  * Expose `array`
@@ -505,6 +657,12 @@ Emitter(array.prototype);
 Enumerable(array.prototype);
 
 /**
+ * Add a marker for array object consumers to signal that Array methods are supported
+ * (see https://github.com/dribnet/ArrayLike.js)
+ */
+array.prototype.__ArrayLike = true;
+
+/**
  * Removes the last element from an array and returns that element
  *
  * @return {Mixed} removed element
@@ -512,7 +670,7 @@ Enumerable(array.prototype);
 
 array.prototype.pop = function() {
   var ret = proto.pop.apply(this, arguments);
-  this.emit('remove', ret);
+  this.emit('remove', ret, this.length);
   return ret;
 };
 
@@ -527,7 +685,7 @@ array.prototype.pop = function() {
 array.prototype.push = function() {
   var ret = proto.push.apply(this, arguments),
       args = [].slice.call(arguments);
-  for(var i = 0, len = args.length; i < len; i++) this.emit('add', args[i]);
+  for(var i = 0, len = args.length; i < len; i++) this.emit('add', args[i], ret - len + i);
   return ret;
 };
 
@@ -539,7 +697,7 @@ array.prototype.push = function() {
 
 array.prototype.shift = function() {
   var ret = proto.shift.apply(this, arguments);
-  this.emit('remove', ret);
+  this.emit('remove', ret, 0);
   return ret;
 };
 
@@ -552,11 +710,11 @@ array.prototype.shift = function() {
  * @return {Array} removed elements
  */
 
-array.prototype.splice = function() {
+array.prototype.splice = function(index) {
   var ret = proto.splice.apply(this, arguments),
       added = [].slice.call(arguments, 2);
-  for(var i = 0, len = ret.length; i < len; i++) this.emit('remove', ret[i]);
-  for(    i = 0, len = added.length; i < len; i++) this.emit('add', added[i]);
+  for(var i = 0, len = ret.length; i < len; i++) this.emit('remove', ret[i], index + i);
+  for(    i = 0, len = added.length; i < len; i++) this.emit('add', added[i], index + i);
   return ret;
 };
 
@@ -571,24 +729,34 @@ array.prototype.splice = function() {
 array.prototype.unshift = function() {
   var ret = proto.unshift.apply(this, arguments),
       args = [].slice.call(arguments);
-  for(var i = 0, len = args.length; i < len; i++) this.emit('add', args[i]);
+  for(var i = 0, len = args.length; i < len; i++) this.emit('add', args[i], i);
   return ret;
 };
 
 /**
- * toString
+ * toJSON
  */
 
-array.prototype.toString =
-array.prototype.toJSON   = function() {
+array.prototype.toJSON = function() {
+  return this.map(function(obj) {
+    return (obj.toJSON) ? obj.toJSON() : obj;
+  }).toArray();
+}
+
+/**
+ * toArray
+ */
+array.prototype.toArray  = function() {
   return proto.slice.call(this);
 };
 
 /**
  * Attach the rest of the array methods
+ *
+ * TODO: implement lastIndexOf in ./lib/enumerable so it works in IE
  */
 
-var methods = ['sort', 'reverse', 'concat', 'join', 'slice', 'lastIndexOf'];
+var methods = ['toString', 'reverse', 'concat', 'join', 'slice', 'lastIndexOf'];
 
 methods.forEach(function(method) {
   array.prototype[method] = function() {
@@ -603,7 +771,8 @@ require.register("array/lib/enumerable.js", function(exports, require, module){
  */
 
 var toFunction = require('to-function'),
-    proto = {};
+    proto = Array.prototype,
+    enumerable = {};
 
 /**
  * Mixin to `obj`.
@@ -616,7 +785,7 @@ var toFunction = require('to-function'),
  */
 
 module.exports = function(obj) {
-  for(var key in proto) obj[key] = proto[key];
+  for(var key in enumerable) obj[key] = enumerable[key];
   return obj;
 };
 
@@ -632,8 +801,8 @@ module.exports = function(obj) {
  * @api public
  */
 
-proto.forEach =
-proto.each = function(fn){
+enumerable.forEach =
+enumerable.each = function(fn){
   var arr = this,
       len = arr.length;
 
@@ -662,7 +831,7 @@ proto.each = function(fn){
  * @api public
  */
 
-proto.map = function(fn){
+enumerable.map = function(fn){
   fn = toFunction(fn);
   var arr = this,
       len = arr.length;
@@ -690,8 +859,8 @@ proto.map = function(fn){
  * @api public
  */
 
-proto.filter =
-proto.select = function(fn){
+enumerable.filter =
+enumerable.select = function(fn){
   fn = toFunction(fn);
   var out = [],
       arr = this,
@@ -715,7 +884,7 @@ proto.select = function(fn){
  * @api public
  */
 
-proto.unique = function(){
+enumerable.unique = function(){
   var out = [],
       arr = this,
       len = arr.length,
@@ -753,7 +922,7 @@ proto.unique = function(){
  * @api public
  */
 
-proto.reject = function(fn){
+enumerable.reject = function(fn){
   var out = [],
       arr = this,
       len = arr.length,
@@ -786,7 +955,7 @@ proto.reject = function(fn){
  */
 
 
-proto.compact = function(){
+enumerable.compact = function(){
   return this.reject(null);
 };
 
@@ -807,7 +976,7 @@ proto.compact = function(){
  * @api public
  */
 
-proto.find = function(fn){
+enumerable.find = function(fn){
   fn = toFunction(fn);
   var arr = this,
       len = arr.length,
@@ -823,8 +992,6 @@ proto.find = function(fn){
  * Return the last value when `fn(val, i)` is truthy,
  * otherwise return `undefined`.
  *
- * TODO: reverse the for loop
- *
  *    users.findLast(function(user){
  *      return user.role == 'admin'
  *    })
@@ -834,19 +1001,12 @@ proto.find = function(fn){
  * @api public
  */
 
-proto.findLast = function(fn){
-  fn = toFunction(fn);
-  var arr = this,
-      len = arr.length,
-      ret,
-      val;
+enumerable.findLast = function (fn) {
+    fn = toFunction(fn);
+	var arr = this,
+	i = arr.length;
 
-  for (var i = 0; i < len; ++i) {
-    val = arr[i];
-    if (fn(val, i)) ret = val;
-  }
-
-  return ret;
+	while(i--) if (fn(arr[i], i)) return arr[i];
 };
 
 /**
@@ -865,7 +1025,7 @@ proto.findLast = function(fn){
  * @api public
  */
 
-proto.every = function(fn){
+enumerable.every = function(fn){
   fn = toFunction(fn);
   var arr = this,
       len = arr.length,
@@ -892,7 +1052,7 @@ proto.every = function(fn){
  * @api public
  */
 
-proto.none = function(fn){
+enumerable.none = function(fn){
   fn = toFunction(fn);
   var arr = this,
       len = arr.length,
@@ -919,7 +1079,7 @@ proto.none = function(fn){
  * @api public
  */
 
-proto.any = function(fn){
+enumerable.any = function(fn){
   fn = toFunction(fn);
   var arr = this,
       len = arr.length,
@@ -944,7 +1104,7 @@ proto.any = function(fn){
  * @api public
  */
 
-proto.count = function(fn){
+enumerable.count = function(fn){
   fn = toFunction(fn);
   var n = 0,
       arr = this,
@@ -968,7 +1128,7 @@ proto.count = function(fn){
  * @api public
  */
 
-proto.indexOf = function(obj) {
+enumerable.indexOf = function(obj) {
   var arr = this,
       len = arr.length,
       val;
@@ -989,7 +1149,7 @@ proto.indexOf = function(obj) {
  * @api public
  */
 
-proto.has = function(obj) {
+enumerable.has = function(obj) {
   return !! ~this.indexOf(obj);
 };
 
@@ -1004,7 +1164,7 @@ proto.has = function(obj) {
  * @api public
  */
 
-proto.reduce = function(fn, init){
+enumerable.reduce = function(fn, init){
   var arr = this,
       len = arr.length,
       i = 0,
@@ -1044,7 +1204,7 @@ proto.reduce = function(fn, init){
  * @api public
  */
 
-proto.max = function(fn){
+enumerable.max = function(fn){
   var arr = this,
       len = arr.length,
       max = -Infinity,
@@ -1089,7 +1249,7 @@ proto.max = function(fn){
  * @api public
  */
 
-proto.min = function(fn){
+enumerable.min = function(fn){
   var arr = this,
       len = arr.length,
       min = Infinity,
@@ -1134,7 +1294,7 @@ proto.min = function(fn){
  * @api public
  */
 
-proto.sum = function(fn){
+enumerable.sum = function(fn){
   var arr = this,
       len = arr.length,
       n = 0,
@@ -1176,8 +1336,8 @@ proto.sum = function(fn){
  * @api public
  */
 
-proto.avg =
-proto.mean = function(fn){
+enumerable.avg =
+enumerable.mean = function(fn){
   var arr = this,
       len = arr.length,
       n = 0,
@@ -1205,7 +1365,7 @@ proto.mean = function(fn){
  * @api public
  */
 
-proto.first = function(n) {
+enumerable.first = function(n) {
   var arr = this;
 
   if(!n) return arr[0];
@@ -1215,7 +1375,7 @@ proto.first = function(n) {
       out = new Array(len);
 
   for (var i = 0; i < len; ++i) {
-    out[i] = out[i];
+    out[i] = arr[i];
   }
 
   return out;
@@ -1230,7 +1390,7 @@ proto.first = function(n) {
  * @api public
  */
 
-proto.last = function(n){
+enumerable.last = function(n){
   var arr = this,
       len = arr.length;
 
@@ -1247,15 +1407,90 @@ proto.last = function(n){
   return out;
 };
 
+/**
+ * Create a hash from a given `key`
+ *
+ * @param {String} key
+ * @return {Object}
+ * @api public
+ */
+
+enumerable.hash = function(str) {
+  var arr = this,
+      len = arr.length,
+      out = {},
+      key;
+
+  for (var i = 0, len = arr.length; i < len; i++) {
+    key = arr[i][str];
+    // TODO: assess, maybe we want out[i] = arr[i]
+    if(!key) continue;
+    out[key] = arr[i];
+  };
+
+  return out;
+};
+
+/**
+ * Sort the array.
+ *
+ * With strings:
+ *
+ *   fruits.sort('calories')
+ *
+ * Descending sort:
+ *
+ *   fruits.sort('calories', 'desc')
+ *
+ * @param {undefined|Function|String} fn
+ * @param {Nunber|String|Boolean} dir
+ * @return {Array}
+ * @api public
+ */
+
+enumerable.sort = function(fn, dir) {
+  dir = (dir !== undefined) ? dir : 1;
+  var sort = proto.sort;
+  if(!fn) return sort.apply(this);
+  else if('function' == typeof fn) return sort.apply(this, arguments);
+
+  fn = toFunction(fn);
+
+  // support ascending and descending directions
+  if('string' == typeof dir) {
+    if(/asc/.test(dir)) dir = 1;
+    else if(/des/.test(dir)) dir = -1;
+  } else if('boolean' == typeof dir) {
+    dir = (dir) ? 1 : -1;
+  }
+
+  function compare(a, b) {
+    a = fn(a), b = fn(b);
+    if(a < b) return -(dir);
+    else if(a > b) return dir;
+    return 0
+  };
+
+  return sort.call(this, compare);
+}
+
 });
+
+
+
+
 require.alias("component-emitter/index.js", "array/deps/emitter/index.js");
+require.alias("component-emitter/index.js", "emitter/index.js");
+require.alias("component-indexof/index.js", "component-emitter/deps/indexof/index.js");
 
 require.alias("component-to-function/index.js", "array/deps/to-function/index.js");
-
-if (typeof exports == "object") {
+require.alias("component-to-function/index.js", "to-function/index.js");
+require.alias("component-props/index.js", "component-to-function/deps/props/index.js");
+require.alias("component-props/index.js", "component-to-function/deps/props/index.js");
+require.alias("component-props/index.js", "component-props/index.js");if (typeof exports == "object") {
   module.exports = require("array");
 } else if (typeof define == "function" && define.amd) {
-  define(require("array"));
+  define(function(){ return require("array"); });
 } else {
-  window["array"] = require("array");
+  this["array"] = require("array");
 }})();
