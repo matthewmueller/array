@@ -1,3 +1,13 @@
+
+0.3.0 / 2013-11-24
+==================
+
+ * added array mixin support
+ * added lastIndexOf(n) for IE
+ * added index for add and remove events
+ * updated emitter to 1.1.0
+ * updated to-function to feature branch "getter/fns"
+
 0.2.1 / 2013-03-11
 ==================
 
