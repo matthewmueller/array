@@ -124,7 +124,7 @@ describe('array', function () {
             break;
           case 1:
             assert('3' === v);
-            assert(2 === i);
+            assert(1 === i);
             break;
         }
       });
