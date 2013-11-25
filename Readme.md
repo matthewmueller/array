@@ -96,11 +96,22 @@ Initialize an `array`.
 
 As an empty array:
 
-    var arr = array();
+```js
+var arr = array();
+```
 
 As an array with values:
 
-    var arr = array([1, 2, 3, 4]);
+```js
+var arr = array([1, 2, 3, 4]);
+```
+
+Or as a mixin:
+
+```js
+function Notes() {}
+array(Notes.prototype);
+```
 
 ### Array methods
 
