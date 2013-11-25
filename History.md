@@ -1,4 +1,9 @@
 
+0.3.1 / 2013-11-24
+==================
+
+ * update index in remove event when splicing multiple items
+
 0.3.0 / 2013-11-24
 ==================
 
