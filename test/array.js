@@ -28,6 +28,17 @@ describe('array', function () {
     assert('3' === arr[2]);
   });
 
+  it('should support mixins', function() {
+    function Notes() {}
+    array(Notes.prototype);
+    var notes = new Notes();
+    notes.push('1', '2', '3');
+    assert(3 === notes.length);
+    assert('1' === notes[0]);
+    assert('2' === notes[1]);
+    assert('3' === notes[2]);
+  });
+
   describe('pop', function () {
     it('should pop() like [].pop()', function () {
       arr.push('1', '2');
