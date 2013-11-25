@@ -6,7 +6,8 @@
   "keywords": [],
   "dependencies": {
     "component/emitter" : "*",
-    "component/to-function" : "getter/fns"
+    "component/to-function" : "getter/fns",
+    "yields/isArray": "1.0.0"
   },
   "development": {},
   "license": "MIT",

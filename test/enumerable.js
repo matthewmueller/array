@@ -181,6 +181,19 @@ describe('enumerable', function () {
     });
   });
 
+  describe('lastIndexOf', function () {
+    it('work with lastIndexOf', function () {
+      var arr = array(['1', '2']);
+      assert(0 === arr.lastIndexOf('1'));
+      assert(1 === arr.lastIndexOf('2'));
+    });
+
+    it('should also work with objects', function(){
+      var i = fruits.lastIndexOf(fruits[2]);
+      assert(2 == i);
+    });
+  });
+
   describe('hash', function () {
     it('should create hashes from an array', function () {
       var out = fruits.hash('name');
