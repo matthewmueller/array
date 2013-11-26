@@ -2,7 +2,7 @@
   "name": "array",
   "repo": "matthewmueller/array",
   "description": "a better array",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "keywords": [],
   "dependencies": {
     "component/emitter" : "*",
