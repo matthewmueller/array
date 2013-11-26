@@ -72,12 +72,34 @@ describe('enumerable', function () {
       assert('pear' === names[1]);
       assert(names instanceof array);
     });
+
+    it('should chain without losing context', function() {
+      var obj = { name: 'matt' };
+      var arr = array(obj);
+      arr.push(1, 2, 3, 4);
+      assert('matt' == arr.filter('> 3').name);
+    });
   });
 
   describe('unique', function() {
     it('should undupe objects', function() {
-      fruits.push({ name : 'grape', 'color' : 'purple', 'calories' : 20 });
-      fruits.unique();
+      var arr = array([1,2,4,4,4,2,1,5,0]);
+      var out = arr.unique();
+      assert(5 == out.length);
+      assert(1 == out[0]);
+      assert(2 == out[1]);
+      assert(4 == out[2]);
+      assert(5 == out[3]);
+      assert(0 == out[4]);
+    });
+
+    it('should chain without losing context', function() {
+      var obj = { name: 'matt' };
+      var arr = array(obj);
+      arr.push(1,2,4,4,4,2,1,5,0);
+      var out = arr.unique();
+      assert(5 == out.length);
+      assert('matt' == out.name);
     });
   });
 
@@ -93,6 +115,17 @@ describe('enumerable', function () {
       fruits[0].eaten = true;
       var len = fruits.reject('eaten').length;
       assert(2 == len);
+    });
+
+    it('should chain without losing context', function() {
+      var obj = { name: 'matt' };
+      var arr = array(obj);
+      arr.push(1, 2, 3, 4);
+      var out = arr.reject('>= 3');
+      assert(2 == arr.length);
+      assert(1 == arr[0]);
+      assert(2 == arr[1]);
+      assert('matt' == arr.name);
     });
   });
 
