@@ -1,5 +1,5 @@
 {
-  "name": "array.js",
+  "name": "array",
   "version": "0.3.2",
   "description": "a vocal, functional array",
   "main": "array.js",

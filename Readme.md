@@ -8,7 +8,7 @@ The functional bits are based off the [Enumerable](https://github.com/component/
 
 ### Node.js
 
-    npm install array.js
+    npm install array
 
 ### Browser with component
 
