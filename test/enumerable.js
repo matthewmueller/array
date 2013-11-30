@@ -13,9 +13,17 @@ var fixture = [
 
 describe('enumerable', function () {
   var fruits;
+  var views;
 
   beforeEach(function() {
     fruits = array(fixture);
+    views = array(fixture).map(function(fruit) {
+      return { model: fruit };
+    });
+
+    views.get = function(obj) {
+      return obj.model;
+    };
   });
 
   describe('each', function () {
@@ -51,6 +59,14 @@ describe('enumerable', function () {
        assert('grape' === names[2]);
        assert(names instanceof array);
     });
+
+    it('should work with a custom array.get', function() {
+      var names = views.map('name');
+      assert(3 == names.length);
+      assert('apple' == names[0]);
+      assert('pear' == names[1]);
+      assert('grape' == names[2]);
+    });
   });
 
   describe('filter', function () {
@@ -79,6 +95,19 @@ describe('enumerable', function () {
       arr.push(1, 2, 3, 4);
       assert('matt' == arr.filter('> 3').name);
     });
+
+    it('should work with custom array.get', function() {
+      var out = views.filter('calories > 50');
+      assert(2 == out.length);
+      assert('apple' == out[0].model.name);
+      assert('pear' == out[1].model.name);
+    });
+
+    it('shouldn\'t mutate the original array', function() {
+      var len = fruits.length;
+      fruits.filter('calories > 50');
+      assert(len == fruits.length);
+    })
   });
 
   describe('unique', function() {
@@ -100,6 +129,25 @@ describe('enumerable', function () {
       var out = arr.unique();
       assert(5 == out.length);
       assert('matt' == out.name);
+    });
+
+    it('should uniquify based on fields', function() {
+      fruits.push({ name: 'orange', calories: 100 });
+      var names = fruits.unique('calories').map('name');
+      assert(3 == names.length);
+      assert('apple' === names[0]);
+      assert('pear' === names[1]);
+      assert('grape' === names[2]);
+    });
+
+    it('should work with a custom get', function() {
+      views.push({ model: { name: 'orange', calories: 100 }});
+
+      var names = views.unique('calories').map('name');
+      assert(3 == names.length);
+      assert('apple' === names[0]);
+      assert('pear' === names[1]);
+      assert('grape' === names[2]);
     });
   });
 
@@ -265,6 +313,13 @@ describe('enumerable', function () {
       assert('apple' === fruits[1].name);
       assert('pear' === fruits[2].name);
     });
+
+    it('should work with custom get', function() {
+      views.sort('calories');
+      assert('grape' === views[0].model.name);
+      assert('apple' === views[1].model.name);
+      assert('pear' === views[2].model.name);
+    })
 
     describe('descending direction', function () {
       it('should support numbers', function(){

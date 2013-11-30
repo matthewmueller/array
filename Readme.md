@@ -189,12 +189,16 @@ items.select('complete')
 users.select('age > 20')
 ```
 
-#### `.unique()`
+#### `.unique(fn|str)`
 
   Select all unique values.
 
 ```js
 nums.unique()
+```
+
+```js
+users.unique('age')
 ```
 
 #### `.reject(fn|str|mixed)`

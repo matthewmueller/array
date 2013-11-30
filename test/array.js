@@ -186,4 +186,19 @@ describe('array', function () {
       assert(JSON.stringify(["Hello", "World"]) === JSON.stringify(arr));
     });
   });
+
+  describe('array.get', function() {
+    it ('custom getter', function() {
+      var nums = array([ { n: 1 }, { n: 3 }, { n: 5}, { n: 8}, { n: 20 } ]);
+      nums.get = function(obj) {
+        return obj.n;
+      };
+
+      var out = nums.filter('> 4');
+      assert(3 == out.length);
+      assert(5 == out[0].n);
+      assert(8 == out[1].n);
+      assert(20 == out[2].n);
+    });
+  });
 });
