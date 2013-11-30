@@ -105,8 +105,9 @@ describe('enumerable', function () {
 
     it('shouldn\'t mutate the original array', function() {
       var len = fruits.length;
-      fruits.filter('calories > 50');
+      var out = fruits.filter('calories > 50');
       assert(len == fruits.length);
+      assert(len > out.length);
     })
   });
 
@@ -175,10 +176,23 @@ describe('enumerable', function () {
       assert(2 == arr[1]);
       assert('matt' == arr.name);
     });
+
+    it('should work with a custom array.get', function() {
+      var out = views.reject('calories > 50');
+      assert(1 == out.length);
+      assert('grape' == out[0].model.name);
+    });
+
+    it('shouldn\'t mutate the original array', function() {
+      var len = fruits.length;
+      var out = fruits.reject('calories > 50');
+      assert(len == fruits.length);
+      assert(len > out.length);
+    })
   });
 
   describe('find', function() {
-    it('should find strings', function(){
+    it('should work with objects', function(){
       fruits.push({ name : 'grape', color : 'red'});
       var fruit = fruits.find({ name : 'grape'});
       assert('grape' == fruit.name);
