@@ -596,6 +596,42 @@ function get(str) {
 }
 
 });
+require.register("yields-isArray/index.js", function(exports, require, module){
+
+/**
+ * isArray
+ */
+
+var isArray = Array.isArray;
+
+/**
+ * toString
+ */
+
+var str = Object.prototype.toString;
+
+/**
+ * Wether or not the given `val`
+ * is an array.
+ *
+ * example:
+ *
+ *        isArray([]);
+ *        // > true
+ *        isArray(arguments);
+ *        // > false
+ *        isArray('');
+ *        // > false
+ *
+ * @param {mixed} val
+ * @return {bool}
+ */
+
+module.exports = isArray || function (val) {
+  return !! val && '[object Array]' == str.call(val);
+};
+
+});
 require.register("array/index.js", function(exports, require, module){
 module.exports = require('./lib/array');
 
@@ -605,22 +641,14 @@ require.register("array/lib/array.js", function(exports, require, module){
  * Module dependencies
  */
 
-var Enumerable = require('./enumerable'),
-    proto = Array.prototype;
+var Enumerable = require('./enumerable');
+var proto = Array.prototype;
+var isArray = Array.isArray || require('isArray');
 
-/**
- * Emitter
- *
- * TODO: remove once this issue gets resolved:
- * https://github.com/component/component/issues/212
- *
- */
-
-var Emitter;
 try {
-  Emitter = require('emitter');
+  var Emitter = require('emitter');
 } catch(e) {
-  Emitter = require('emitter-component');
+  var Emitter = require('emitter-component');
 }
 
 /*
@@ -631,16 +659,26 @@ module.exports = array;
 
 /**
  * Initialize `array`
+ *
+ * @param {Array|Object|Undefined} arr
+ * @return {array}
+ * @api public
  */
 
 function array(arr) {
   if(!(this instanceof array)) return new array(arr);
   arr = arr || [];
 
-  // array-like
-  var len = this.length = arr.length;
-  for(var i = 0; i < len; i++) {
-    this[i] = arr[i];
+  if (isArray(arr)) {
+    // create array-like object
+    var len = this.length = arr.length;
+    for(var i = 0; i < len; i++) this[i] = arr[i];
+  } else if ('object' == typeof arr) {
+    arr._ctx = this._ctx = arr;
+    arr.length = this.length = 0;
+    // mixin to another object
+    for(var key in array.prototype) arr[key] = array.prototype[key];
+    return arr;
   }
 }
 
@@ -657,15 +695,10 @@ Emitter(array.prototype);
 Enumerable(array.prototype);
 
 /**
- * Add a marker for array object consumers to signal that Array methods are supported
- * (see https://github.com/dribnet/ArrayLike.js)
- */
-array.prototype.__ArrayLike = true;
-
-/**
  * Removes the last element from an array and returns that element
  *
  * @return {Mixed} removed element
+ * @api public
  */
 
 array.prototype.pop = function() {
@@ -680,6 +713,7 @@ array.prototype.pop = function() {
  *
  * @param {Mixed, ...} elements
  * @return {Number}
+ * @api public
  */
 
 array.prototype.push = function() {
@@ -693,6 +727,7 @@ array.prototype.push = function() {
  * Removes the first element from an array and returns that element.
  *
  * @return {Mixed}
+ * @api public
  */
 
 array.prototype.shift = function() {
@@ -708,12 +743,13 @@ array.prototype.shift = function() {
  * @param {Number} howMany
  * @param {Mixed, ...} elements
  * @return {Array} removed elements
+ * @api public
  */
 
 array.prototype.splice = function(index) {
   var ret = proto.splice.apply(this, arguments),
       added = [].slice.call(arguments, 2);
-  for(var i = 0, len = ret.length; i < len; i++) this.emit('remove', ret[i], index + i);
+  for(var i = 0, len = ret.length; i < len; i++) this.emit('remove', ret[i], index);
   for(    i = 0, len = added.length; i < len; i++) this.emit('add', added[i], index + i);
   return ret;
 };
@@ -724,6 +760,7 @@ array.prototype.splice = function(index) {
  *
  * @param {Mixed, ...} elements
  * @return {Number} length
+ * @api public
  */
 
 array.prototype.unshift = function() {
@@ -735,6 +772,9 @@ array.prototype.unshift = function() {
 
 /**
  * toJSON
+ *
+ * @return {Object}
+ * @api public
  */
 
 array.prototype.toJSON = function() {
@@ -744,25 +784,64 @@ array.prototype.toJSON = function() {
 }
 
 /**
- * toArray
+ * Convert the array-like object to an actual array
+ *
+ * @return {Array}
+ * @api public
  */
+
 array.prototype.toArray  = function() {
   return proto.slice.call(this);
 };
 
 /**
- * Attach the rest of the array methods
+ * Static: get the array item
  *
- * TODO: implement lastIndexOf in ./lib/enumerable so it works in IE
+ * @param {Mixed} obj
+ * @return {Mixed}
+ * @api public
  */
 
-var methods = ['toString', 'reverse', 'concat', 'join', 'slice', 'lastIndexOf'];
+array.get = function(obj) {
+  return obj;
+};
+
+/**
+ * Get the array item
+ *
+ * @param {Number} i
+ * @return {Mixed}
+ * @api public
+ */
+
+array.prototype.get = array.get;
+
+/**
+ * Attach the rest of the array methods
+ */
+
+var methods = ['toString', 'reverse', 'concat', 'join', 'slice'];
 
 methods.forEach(function(method) {
   array.prototype[method] = function() {
     return proto[method].apply(this, arguments);
   };
 });
+
+/**
+ * Remake the array, emptying it, then adding values back in
+ *
+ * @api private
+ */
+
+array.prototype._remake = function(arr) {
+  var clone = array(this._ctx || []);
+  var i = clone.length;
+  while(~i) delete clone[i--];
+  clone.get = this.get || array.get;
+  proto.push.apply(clone, arr);
+  return clone;
+};
 
 });
 require.register("array/lib/enumerable.js", function(exports, require, module){
@@ -782,6 +861,7 @@ var toFunction = require('to-function'),
  *
  * @param {Object} obj
  * @return {Object} obj
+ * @api private
  */
 
 module.exports = function(obj) {
@@ -837,7 +917,7 @@ enumerable.map = function(fn){
       len = arr.length;
 
   for (var i = 0; i < len; ++i) {
-    arr[i] = fn(arr[i], i);
+    arr[i] = fn(arr.get(arr[i]), i);
   }
 
   return this;
@@ -868,11 +948,11 @@ enumerable.select = function(fn){
       val;
 
   for (var i = 0; i < len; ++i) {
-    val = arr[i];
-    if (fn(val, i)) out.push(val);
+    val = arr.get(arr[i]);
+    if (fn(val, i)) out.push(arr[i]);
   }
 
-  return new arr.constructor(out);
+  return this._remake(out);
 };
 
 /**
@@ -880,23 +960,28 @@ enumerable.select = function(fn){
  *
  *    nums.unique()
  *
+ * @param {Function|String} fn
  * @return {Enumerable}
  * @api public
  */
 
-enumerable.unique = function(){
+enumerable.unique = function(fn){
   var out = [],
+      vals = [],
       arr = this,
       len = arr.length,
       val;
 
+  fn = (fn) ? toFunction(fn) : function(o) { return o; };
+
   for (var i = 0; i < len; ++i) {
-    val = arr[i];
-    if (~arr.indexOf(val)) continue;
-    out.push(val);
+    val = fn(arr.get(arr[i]));
+    if (~vals.indexOf(val)) continue;
+    vals.push(val);
+    out.push(arr[i]);
   }
 
-  return new arr.constructor(out);
+  return this._remake(out);
 };
 
 /**
@@ -931,17 +1016,17 @@ enumerable.reject = function(fn){
   if ('string' == typeof fn) fn = toFunction(fn);
   if (fn) {
     for (i = 0; i < len; ++i) {
-      val = arr[i];
-      if (!fn(arr[i], i)) out.push(val);
+      val = arr.get(arr[i]);
+      if (!fn(val, i)) out.push(arr[i]);
     }
   } else {
     for (i = 0; i < len; ++i) {
-      val = arr[i];
-      if (val != fn) out.push(val);
+      val = arr.get(arr[i]);
+      if (val != fn) out.push(arr[i]);
     }
   }
 
-  return new arr.constructor(out);
+  return this._remake(out);
 };
 
 /**
@@ -983,8 +1068,8 @@ enumerable.find = function(fn){
       val;
 
   for (var i = 0; i < len; ++i) {
-    val = arr[i];
-    if (fn(val, i)) return val;
+    val = arr.get(arr[i]);
+    if (fn(val, i)) return arr[i];
   }
 };
 
@@ -1003,10 +1088,10 @@ enumerable.find = function(fn){
 
 enumerable.findLast = function (fn) {
     fn = toFunction(fn);
-	var arr = this,
-	i = arr.length;
+  var arr = this,
+  i = arr.length;
 
-	while(i--) if (fn(arr[i], i)) return arr[i];
+  while(i--) if (fn(arr.get(arr[i]), i)) return arr[i];
 };
 
 /**
@@ -1032,7 +1117,7 @@ enumerable.every = function(fn){
       val;
 
   for (var i = 0; i < len; ++i) {
-    val = arr[i];
+    val = arr.get(arr[i]);
     if (!fn(val, i)) return false;
   }
 
@@ -1059,7 +1144,7 @@ enumerable.none = function(fn){
       val;
 
   for (var i = 0; i < len; ++i) {
-    val = arr[i];
+    val = arr.get(arr[i]);
     if (fn(val, i)) return false;
   }
   return true;
@@ -1086,7 +1171,7 @@ enumerable.any = function(fn){
       val;
 
   for (var i = 0; i < len; ++i) {
-    val = arr[i];
+    val = arr.get(arr[i]);
     if (fn(val, i)) return true;
   }
   return false;
@@ -1114,7 +1199,7 @@ enumerable.count = function(fn){
   if(!fn) return len;
 
   for (var i = 0; i < len; ++i) {
-    val = arr[i];
+    val = arr.get(arr[i]);
     if (fn(val, i)) ++n;
   }
   return n;
@@ -1134,7 +1219,28 @@ enumerable.indexOf = function(obj) {
       val;
 
   for (var i = 0; i < len; ++i) {
-    val = arr[i];
+    val = arr.get(arr[i]);
+    if (val === obj) return i;
+  }
+
+  return -1;
+};
+
+/**
+ * Determine the last indexof `obj` or return `-1`.
+ *
+ * @param {Mixed} obj
+ * @return {Number}
+ * @api public
+ */
+
+enumerable.lastIndexOf = function(obj) {
+  var arr = this,
+      len = arr.length,
+      val;
+
+  for (var i = --len; i >= 0; --i) {
+    val = arr.get(arr[i]);
     if (val === obj) return i;
   }
 
@@ -1175,7 +1281,7 @@ enumerable.reduce = function(fn, init){
     : init;
 
   for (; i < len; ++i) {
-    val = fn(val, arr[i], i);
+    val = fn(val, arr.get(arr[i]), i);
   }
 
   return val;
@@ -1214,12 +1320,12 @@ enumerable.max = function(fn){
   if (fn) {
     fn = toFunction(fn);
     for (i = 0; i < len; ++i) {
-      n = fn(arr[i], i);
+      n = fn(arr.get(arr[i]), i);
       max = n > max ? n : max;
     }
   } else {
     for (i = 0; i < len; ++i) {
-      n = arr[i];
+      n = arr.get(arr[i]);
       max = n > max ? n : max;
     }
   }
@@ -1259,12 +1365,12 @@ enumerable.min = function(fn){
   if (fn) {
     fn = toFunction(fn);
     for (i = 0; i < len; ++i) {
-      n = fn(arr[i], i);
+      n = fn(arr.get(arr[i]), i);
       min = n < min ? n : min;
     }
   } else {
     for (i = 0; i < len; ++i) {
-      n = arr[i];
+      n = arr.get(arr[i]);
       min = n < min ? n : min;
     }
   }
@@ -1303,11 +1409,11 @@ enumerable.sum = function(fn){
   if (fn) {
     fn = toFunction(fn);
     for (i = 0; i < len; ++i) {
-      n += fn(arr[i], i);
+      n += fn(arr.get(arr[i]), i);
     }
   } else {
     for (i = 0; i < len; ++i) {
-      n += arr[i];
+      n += arr.get(arr[i]);
     }
   }
 
@@ -1346,11 +1452,11 @@ enumerable.mean = function(fn){
   if (fn) {
     fn = toFunction(fn);
     for (i = 0; i < len; ++i) {
-      n += fn(arr[i], i);
+      n += fn(arr.get(arr[i]), i);
     }
   } else {
     for (i = 0; i < len; ++i) {
-      n += arr[i];
+      n += arr.get(arr[i]);
     }
   }
 
@@ -1422,8 +1528,8 @@ enumerable.hash = function(str) {
       key;
 
   for (var i = 0, len = arr.length; i < len; i++) {
-    key = arr[i][str];
-    // TODO: assess, maybe we want out[i] = arr[i]
+    key = arr.get(arr[i])[str];
+    // TODO: assess, maybe we want out[i] = arr.get(i)
     if(!key) continue;
     out[key] = arr[i];
   };
@@ -1454,6 +1560,7 @@ enumerable.sort = function(fn, dir) {
   if(!fn) return sort.apply(this);
   else if('function' == typeof fn) return sort.apply(this, arguments);
 
+  var self = this;
   fn = toFunction(fn);
 
   // support ascending and descending directions
@@ -1465,16 +1572,18 @@ enumerable.sort = function(fn, dir) {
   }
 
   function compare(a, b) {
-    a = fn(a), b = fn(b);
+    a = fn(self.get(a)), b = fn(self.get(b));
     if(a < b) return -(dir);
     else if(a > b) return dir;
     return 0
   };
 
   return sort.call(this, compare);
-}
+};
 
 });
+
+
 
 
 
@@ -1487,7 +1596,10 @@ require.alias("component-to-function/index.js", "array/deps/to-function/index.js
 require.alias("component-to-function/index.js", "to-function/index.js");
 require.alias("component-props/index.js", "component-to-function/deps/props/index.js");
 require.alias("component-props/index.js", "component-to-function/deps/props/index.js");
-require.alias("component-props/index.js", "component-props/index.js");if (typeof exports == "object") {
+require.alias("component-props/index.js", "component-props/index.js");
+require.alias("yields-isArray/index.js", "array/deps/isArray/index.js");
+require.alias("yields-isArray/index.js", "isArray/index.js");
+if (typeof exports == "object") {
   module.exports = require("array");
 } else if (typeof define == "function" && define.amd) {
   define(function(){ return require("array"); });
