@@ -1,4 +1,12 @@
 
+0.4.0 / 2013-11-29
+==================
+
+ * added custom .get(obj) mapping.
+ * filter, reject, etc. no longer destructive. fixes regression in 0.3.2.
+ * added unique(fn|str)
+ * npm install array.js => array. thanks to @enricomarino :-)
+
 0.3.2 / 2013-11-26
 ==================
 
