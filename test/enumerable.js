@@ -105,9 +105,11 @@ describe('enumerable', function () {
 
     it('shouldn\'t mutate the original array', function() {
       var len = fruits.length;
-      var out = fruits.filter('calories > 50');
+      var out = fruits.filter('calories < 50');
       assert(len == fruits.length);
       assert(len > out.length);
+      assert('apple' == fruits[0].name);
+      assert('grape' == out[0].name);
     })
   });
 
