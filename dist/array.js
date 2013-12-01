@@ -674,8 +674,10 @@ function array(arr) {
     var len = this.length = arr.length;
     for(var i = 0; i < len; i++) this[i] = arr[i];
   } else if ('object' == typeof arr) {
-    arr._ctx = this._ctx = arr;
-    arr.length = this.length = 0;
+    if (isObjectLiteral(arr)) {
+      arr._ctx = this._ctx = JSON.parse(JSON.stringify(arr));
+    }
+
     // mixin to another object
     for(var key in array.prototype) arr[key] = array.prototype[key];
     return arr;
@@ -835,13 +837,24 @@ methods.forEach(function(method) {
  */
 
 array.prototype._remake = function(arr) {
-  var clone = array(this._ctx || []);
-  var i = clone.length;
-  while(~i) delete clone[i--];
-  clone.get = this.get || array.get;
+  var construct = this.constructor;
+  var clone = (this._ctx) ? new construct(this._ctx) : new construct();
   proto.push.apply(clone, arr);
+  clone.get = this.get || array.get;
   return clone;
 };
+
+/**
+ * Is object utility
+ *
+ * @param {Mixed} obj
+ * @return {Boolean}
+ * @api private
+ */
+
+function isObjectLiteral(obj) {
+  return obj.constructor == Object;
+}
 
 });
 require.register("array/lib/enumerable.js", function(exports, require, module){

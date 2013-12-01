@@ -1,4 +1,10 @@
 
+0.4.1 / 2013-11-30
+==================
+
+ * maintain context with multiple inheritance
+ * make reject non-destructive
+
 0.4.0 / 2013-11-29
 ==================
 
