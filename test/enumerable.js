@@ -90,10 +90,24 @@ describe('enumerable', function () {
     });
 
     it('should chain without losing context', function() {
-      var obj = { name: 'matt' };
-      var arr = array(obj);
-      arr.push(1, 2, 3, 4);
-      assert('matt' == arr.filter('> 3').name);
+
+      function List(obj) {
+        for(key in List.prototype) {
+          obj[key] = List.prototype[key];
+        }
+      }
+
+      array(List.prototype);
+      List.prototype.get = function(o) { return o; };
+
+      function ListView() {}
+      List(ListView.prototype);
+      ListView.prototype.hide = function() { return 'hidden'; };
+
+      var list = new ListView();
+      list.push(1, 2, 3, 4);
+
+      assert('hidden' == list.filter('> 3').hide());
     });
 
     it('should work with custom array.get', function() {
@@ -173,9 +187,22 @@ describe('enumerable', function () {
       var arr = array(obj);
       arr.push(1, 2, 3, 4);
       var out = arr.reject('>= 3');
-      assert(2 == arr.length);
+      assert(2 == out.length);
+      assert(1 == out[0]);
+      assert(2 == out[1]);
+      assert('matt' == out.name);
+    });
+
+    it('should\'t mutate the original array', function() {
+      var obj = { name: 'matt' };
+      var arr = array(obj);
+      arr.push(1, 2, 3, 4);
+      var out = arr.reject('>= 3');
+      assert(4 == arr.length);
       assert(1 == arr[0]);
       assert(2 == arr[1]);
+      assert(3 == arr[2]);
+      assert(4 == arr[3]);
       assert('matt' == arr.name);
     });
 
