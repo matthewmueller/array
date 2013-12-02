@@ -52,6 +52,16 @@ describe('enumerable', function () {
       assert(names instanceof array);
     });
 
+    it('should not change the original array', function () {
+      var names = fruits.map(function(fruit) {
+        return fruit.name;
+      });
+
+      assert('apple' === fruits[0].name);
+      assert('pear'  === fruits[1].name);
+      assert('grape' === fruits[2].name);
+    });
+
     it('should work with strings too', function(){
        var names = fruits.map('name');
        assert('apple' === names[0]);
