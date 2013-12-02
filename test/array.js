@@ -145,6 +145,34 @@ describe('array', function () {
     });
   });
 
+  describe('reverse', function () {
+    it('should emit a `reverse` event', function () {
+      arr.push('1', '2', '3', '4');
+      var called = false;
+      arr.on('reverse', function () {
+        called = true;
+        assert(arr[0] === '4');
+        assert(arr[3] === '1');
+      });
+      arr.reverse();
+      assert(called === true);
+    });
+  });
+
+  describe('sort', function () {
+    it('should emit a `sort` event', function () {
+      arr.push(4, 2, 1, 2, 3);
+      var called = false;
+      arr.on('sort', function () {
+        called = true;
+        assert(arr[0] === 1);
+        assert(arr[4] === 4);
+      });
+      arr.sort();
+      assert(called === true);
+    });
+  });
+
   describe('toString', function() {
     it('should look just like a real array', function() {
       var orig = [1, 2, 3, 4],
