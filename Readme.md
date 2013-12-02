@@ -76,8 +76,10 @@ Keep in mind both these issues are also present when working with jQuery objects
 
 ## Events
 
-* `add` (item) - emitted when items are added to the array (`push`, `unshift`, `splice`)
-* `remove` (item) - emitted when items are removed from the array (`pop`, `shift`, `splice`)
+* `add` (item, index) - emitted when items are added to the array (`push`, `unshift`, `splice`)
+* `remove` (item, index) - emitted when items are removed from the array (`pop`, `shift`, `splice`)
+* `sort` - emitted when array is sorted
+* `reverse` - emitted when array is reversed
 
 An event will be emitted for each item you add or remove. So if you do something like:
 
