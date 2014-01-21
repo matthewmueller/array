@@ -80,6 +80,7 @@ Keep in mind both these issues are also present when working with jQuery objects
 * `remove` (item, index) - emitted when items are removed from the array (`pop`, `shift`, `splice`)
 * `sort` - emitted when array is sorted
 * `reverse` - emitted when array is reversed
+* `change` - emitted at most once for every mutating operation
 
 An event will be emitted for each item you add or remove. So if you do something like:
 
