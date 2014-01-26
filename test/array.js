@@ -48,13 +48,18 @@ describe('array', function () {
       assert(1 === arr.length);
     });
 
-    it('should emit "remove" events', function() {
+    it('should emit "remove" and "change" events', function() {
       arr.push('1', '2');
       arr.on('remove', function(v, i) {
         assert('2' === v);
         assert(1 === i);
       });
+      var changeCalled = 0;
+      arr.on('change', function () {
+        changeCalled++;
+      });
       arr.pop();
+      assert(changeCalled === 1);
     });
   });
 
@@ -64,7 +69,7 @@ describe('array', function () {
       assert(2 === arr.length);
     });
 
-    it('should emit "add" events', function(){
+    it('should emit "add" and "change" events', function(){
       var calls = 0;
       arr.on('add', function(v, i) {
         switch (calls++) {
@@ -78,23 +83,33 @@ describe('array', function () {
             break;
         }
       });
+      var changeCalled = 0;
+      arr.on('change', function () {
+        changeCalled++;
+      });
       arr.push('hi', 'world');
+      assert(changeCalled === 1);
     });
   });
 
   describe('shift', function () {
-    it('should emit "remove" events', function () {
+    it('should emit "remove" and "change" events', function () {
       arr.push('1', '2');
       arr.on('remove', function (v, i) {
         assert('1' === v);
         assert(0 === i);
       });
+      var changeCalled = 0;
+      arr.on('change', function () {
+        changeCalled++;
+      });
       arr.shift();
+      assert(changeCalled === 1);
     });
   });
 
   describe('unshift', function () {
-    it('should emit "add" events', function () {
+    it('should emit "add" and "change" events', function () {
       var calls = 0;
       arr.on('add', function(v, i) {
         switch (calls++) {
@@ -108,12 +123,17 @@ describe('array', function () {
             break;
         }
       });
+      var changeCalled = 0;
+      arr.on('change', function () {
+        changeCalled++;
+      });
       arr.unshift('hi', 'world');
+      assert(changeCalled === 1);
     });
   });
 
   describe('splice', function () {
-    it('should emit "add" and "remove" events', function () {
+    it('should emit "add", "remove" and "change" events', function () {
       arr.push('1', '2', '3', '4');
       var remcalls = 0;
       arr.on('remove', function(v, i) {
@@ -141,12 +161,17 @@ describe('array', function () {
             break;
         }
       });
+      var changeCalled = 0;
+      arr.on('change', function () {
+        changeCalled++;
+      });
       arr.splice(1, 2, '2.', '3.');
+      assert(changeCalled === 1);
     });
   });
 
   describe('reverse', function () {
-    it('should emit a `reverse` event', function () {
+    it('should emit a `reverse` and `change` event', function () {
       arr.push('1', '2', '3', '4');
       var called = false;
       arr.on('reverse', function () {
@@ -154,13 +179,18 @@ describe('array', function () {
         assert(arr[0] === '4');
         assert(arr[3] === '1');
       });
+      var changeCalled = false;
+      arr.on('change', function () {
+        changeCalled = true;
+      });
       arr.reverse();
       assert(called === true);
+      assert(changeCalled === true);
     });
   });
 
   describe('sort', function () {
-    it('should emit a `sort` event', function () {
+    it('should emit a `sort` and `change` event', function () {
       arr.push(4, 2, 1, 2, 3);
       var called = false;
       arr.on('sort', function () {
@@ -168,8 +198,13 @@ describe('array', function () {
         assert(arr[0] === 1);
         assert(arr[4] === 4);
       });
+      var changeCalled = false;
+      arr.on('change', function () {
+        changeCalled = true;
+      });
       arr.sort();
       assert(called === true);
+      assert(changeCalled === true);
     });
   });
 
