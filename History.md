@@ -1,4 +1,12 @@
 
+0.4.2 / 2014-02-08
+==================
+
+ * update to-function
+ * Emit `change` events when mutating the array
+ * .map() should be non-destructive, fixes #18
+ * emit 'sort' and 'reverse' events, fixes #19
+
 0.4.1 / 2013-11-30
 ==================
 

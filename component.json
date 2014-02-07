@@ -2,11 +2,11 @@
   "name": "array",
   "repo": "matthewmueller/array",
   "description": "a better array",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "keywords": [],
   "dependencies": {
-    "component/emitter" : "*",
-    "component/to-function" : "getter/fns",
+    "component/emitter": "*",
+    "component/to-function": "getter/fns",
     "yields/isArray": "1.0.0"
   },
   "development": {},
