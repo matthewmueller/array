@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "component/emitter": "*",
-    "component/to-function": "getter/fns",
+    "component/to-function": "1.2.1",
     "yields/isArray": "1.0.0"
   },
   "development": {},
