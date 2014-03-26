@@ -302,6 +302,18 @@ describe('enumerable', function () {
     });
   });
 
+  describe('count', function () {
+    it('counts w function', function () {
+      assert(1 === fruits.count(function(f){
+        return f.name === 'grape'
+      }));
+    });
+
+    it('counts w string', function () {
+      assert(1 === fruits.count('name === "grape"'));
+    });
+  });
+
   describe('indexOf', function () {
     it('work with indexOf', function () {
       var arr = array(['1', '2']);
