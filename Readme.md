@@ -275,7 +275,7 @@ users.sort(function(user1, user2) {})
 // => [1,5]
 ```
 
-#### `.find(fn)`
+#### `.find(fn|str)`
 
   Return the first value when `fn(val, i)` is truthy,
   otherwise return `undefined`.
@@ -286,7 +286,7 @@ users.find(function(user){
 })
 ```
 
-#### `.findLast(fn)`
+#### `.findLast(fn|str)`
 
   Return the last value when `fn(val, i)` is truthy,
   otherwise return `undefined`.
@@ -308,7 +308,7 @@ pets.none(function(p){ return p.admin })
 pets.none('admin')
 ```
 
-#### `.any(fn)`
+#### `.any(fn|str)`
 
   Assert that at least one invocation of `fn(val, i)` is truthy.
 
@@ -320,7 +320,7 @@ pets.any(function(pet){
 })
 ```
 
-#### `.count(fn)`
+#### `.count(fn|str)`
 
   Count the number of times `fn(val, i)` returns true.
 
@@ -395,11 +395,11 @@ pets.sum('age')
 nums.sum()
 ```
 
-#### `.first([mixed])`
+#### `.first([fn|str])`
 
   Return the first value, or first `n` values. If you pass in an object or a function, first will call `find`.
 
-#### `.last([mixed])`
+#### `.last([fn|str])`
 
   Return the last value, or last `n` values. If you pass in an object or function, last will call `findLast`.
 
