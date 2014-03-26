@@ -404,4 +404,36 @@ describe('enumerable', function () {
       });
     });
   });
+
+  describe('reduce', function () {
+    it('should reduce to a value', function(){
+      var totalCalories = fruits.reduce(function(sum, fruit){
+        return sum + fruit.calories;
+      }, 0);
+      assert(320 === totalCalories);
+    });
+    it('should go from left to right', function(){
+      var order = [];
+      fruits.reduce(function(curr, fruit){
+        order.push(fruit.name);
+      }, 0);
+      assert(order.join(',') === 'apple,pear,grape');
+    });
+  });
+
+  describe('reduceRight', function () {
+    it('should reduce to a value', function(){
+      var totalCalories = fruits.reduceRight(function(sum, fruit){
+        return sum + fruit.calories;
+      }, 0);
+      assert(320 === totalCalories);
+    });
+    it('should go from right to left', function(){
+      var order = [];
+      fruits.reduceRight(function(curr, fruit){
+        order.push(fruit.name);
+      }, 0);
+      assert(order.join(',') === 'grape,pear,apple');
+    });
+  });
 });

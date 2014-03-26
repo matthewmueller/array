@@ -344,6 +344,13 @@ var n = pets.count(function(pet){
   optional `init` value defaulting to the first
   enumerable value.
 
+#### `.reduceRight(fn, mixed)`
+
+  Reduce with `fn(accumulator, val, i)` using
+  optional `init` value defaulting to the first
+  enumerable value - like `reduce`, except goes
+  from right to left.
+
 #### `.max(fn|str)`
 
   Determine the max value.
