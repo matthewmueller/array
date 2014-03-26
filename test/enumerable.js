@@ -436,4 +436,52 @@ describe('enumerable', function () {
       assert(order.join(',') === 'grape,pear,apple');
     });
   });
+
+  describe('any', function () {
+    it('returns true if any is true', function(){
+      assert(fruits.any(function(fruit){
+        return fruit.name === 'apple';
+      }));
+    });
+    it('returns false if none is true', function(){
+      assert(!fruits.any(function(fruit){
+        return fruit.name === 'kiwi';
+      }));
+    });
+    it('accepts strings', function(){
+      assert(fruits.any('name === "apple"'));
+    });
+  });
+
+  describe('none', function () {
+    it('returns true if none is true', function(){
+      assert(fruits.none(function(fruit){
+        return fruit.name === 'kiwi';
+      }));
+    });
+    it('returns false if any is true', function(){
+      assert(!fruits.none(function(fruit){
+        return fruit.name === 'apple';
+      }));
+    });
+    it('accepts strings', function(){
+      assert(fruits.none('name === "kiwi"'));
+    });
+  });
+
+  describe('some', function () {
+    it('returns true if some is true', function(){
+      assert(fruits.some(function(fruit){
+        return fruit.name === 'apple';
+      }));
+    });
+    it('returns false if none is true', function(){
+      assert(!fruits.some(function(fruit){
+        return fruit.name === 'kiwi';
+      }));
+    });
+    it('accepts strings', function(){
+      assert(fruits.some('name === "apple"'));
+    });
+  });
 });
