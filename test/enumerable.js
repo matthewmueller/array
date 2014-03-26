@@ -469,19 +469,4 @@ describe('enumerable', function () {
     });
   });
 
-  describe('some', function () {
-    it('returns true if some is true', function(){
-      assert(fruits.some(function(fruit){
-        return fruit.name === 'apple';
-      }));
-    });
-    it('returns false if none is true', function(){
-      assert(!fruits.some(function(fruit){
-        return fruit.name === 'kiwi';
-      }));
-    });
-    it('accepts strings', function(){
-      assert(fruits.some('name === "apple"'));
-    });
-  });
 });
