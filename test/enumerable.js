@@ -303,13 +303,13 @@ describe('enumerable', function () {
   });
 
   describe('count', function () {
-    it('counts w function', function () {
+    it('counts with function', function () {
       assert(1 === fruits.count(function(f){
         return f.name === 'grape'
       }));
     });
 
-    it('counts w string', function () {
+    it('counts with string', function () {
       assert(1 === fruits.count('name === "grape"'));
     });
   });
