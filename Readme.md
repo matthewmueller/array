@@ -4,6 +4,8 @@ A better array for the browser and node.js. Supports events & many functional go
 
 The functional bits are based off the [Enumerable](https://github.com/component/enumerable) component.
 
+**BREAKING:** the module's package name on npm has changed from `array.js` to `array`. Please update your `package.json`.
+
 ## Installation
 
 ### Node.js
