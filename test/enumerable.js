@@ -325,6 +325,14 @@ describe('enumerable', function () {
       var i = fruits.indexOf(fruits[2]);
       assert(2 == i);
     });
+
+    it('should start from fromIndex', function(){
+      assert(array([1, 1]).indexOf(1, 1) === 1);
+    });
+
+    it('should start from a negative fromIndex (from the back)', function(){
+      assert(array([1, 1]).indexOf(1, -1) === 1);
+    });
   });
 
   describe('lastIndexOf', function () {
@@ -337,6 +345,14 @@ describe('enumerable', function () {
     it('should also work with objects', function(){
       var i = fruits.lastIndexOf(fruits[2]);
       assert(2 == i);
+    });
+
+    it('should start from fromIndex', function(){
+      assert(array([1, 1]).lastIndexOf(1, 0) === 0);
+    });
+
+    it('should start from a negative fromIndex (from the back)', function(){
+      assert(array([1, 1]).lastIndexOf(1, -1) === 1);
     });
   });
 
