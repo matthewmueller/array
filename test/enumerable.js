@@ -497,4 +497,64 @@ describe('enumerable', function () {
     });
   });
 
+  var iterationMethods = [
+    'map',
+    'each',
+    'forEach', 
+    'count', 
+    'any', 
+    'some', 
+    'none', 
+    'every', 
+    'find', 
+    'findLast',
+    'reject',
+    'unique',
+    'filter',
+    'select',
+    'max',
+    'min',
+    'sum',
+    'avg',
+    'mean',
+    'first',
+    'last'
+  ];
+
+  var reduceMethods = ['reduce', 'reduceRight'];
+
+  describe('3rd parameter to callback', function(){
+    iterationMethods.forEach(function(method){
+      it('passes array for ' + method, function(){
+        var arr = array([1]);
+        arr[method](function(item, idx, arr_){
+          assert(arr === arr_);
+        });
+      });
+    });
+
+    reduceMethods.forEach(function(method){
+      it('passes array for ' + method, function(){
+        var arr = array([1]);
+        arr[method](function(curr, item, idx, arr_){
+          assert(arr === arr_);
+        }, 0);
+      });
+    });
+  });
+
+  describe('context to callback in iteration methods', function(){
+    iterationMethods.forEach(function(method){
+      it('passes context for ' + method, function(){
+        var arr = array([1]);
+        var context = {}
+        arr[method](function(item, idx, arr_){
+          assert(this === context);
+        }, context);
+      });
+    });
+  });
+
+
+
 });
