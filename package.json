@@ -14,15 +14,15 @@
     "enumerable"
   ],
   "browser": {
-    "emitter": "component-emitter",
-    "reactive": "component-reactive"
-  }
+    "reactive": "component-reactive",
+    "emitter": "component-emitter"
+  },
   "author": "matthew mueller",
   "license": "MIT",
   "readmeFilename": "Readme.md",
   "dependencies": {
-    "emitter-component": "~1.2.0",
-    "to-function": "~2.0.6"
+    "component-emitter": "^1.2.0",
+    "to-function": "^2.0.6"
   },
   "scripts": {
     "test": "make test"
