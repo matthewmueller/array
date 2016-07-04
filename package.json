@@ -17,8 +17,8 @@
   "license": "MIT",
   "readmeFilename": "Readme.md",
   "dependencies": {
-    "emitter-component": "~1.1.0",
-    "to-function": "~1.2.1"
+    "emitter-component": "~1.1.1",
+    "to-function": "~2.0.6"
   },
   "scripts": {
     "test": "make test"

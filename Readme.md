@@ -1,4 +1,10 @@
-# array [![Build Status](https://secure.travis-ci.org/MatthewMueller/array.png?branch=master)](http://travis-ci.org/MatthewMueller/array) [![Build Status](https://david-dm.org/MatthewMueller/array.png)](https://david-dm.org/MatthewMueller/array) [![NPM version](https://badge.fury.io/js/array.js.png)](http://badge.fury.io/js/array.js)
+# array
+=======
+
+[![Build Status](https://travis-ci.org/MatthewMueller/array.svg?branch=master)](https://travis-ci.org/MatthewMueller/array)
+[![NPM version](https://badge.fury.io/js/thepiratebay.svg)](http://badge.fury.io/js/thepiratebay)
+[![Dependency Status](https://img.shields.io/david/MatthewMueller/array.svg)](https://david-dm.org/MatthewMueller/array)
+[![npm](https://img.shields.io/npm/dm/thepiratebay.svg?maxAge=2592000)]()
 
 A better array for the browser and node.js. Supports events & many functional goodies.
 
@@ -10,7 +16,7 @@ The functional bits are based off the [Enumerable](https://github.com/component/
 
 ### Node.js
 
-    npm install array
+    npm install array --save
 
 ### Browser with component
 
@@ -46,14 +52,14 @@ users.sort('name.last', 'descending')
 ### Events:
 
 ```js
-var array = require('array'),
+const array = require('array'),
     users = array();
 
-users.on('add', function(user) {
+users.on('add', user =>
   console.log('added', user);
 });
 
-users.on('remove', function(user) {
+users.on('remove', user =>
   console.log('removed', user);
 });
 
@@ -87,7 +93,7 @@ Keep in mind both these issues are also present when working with jQuery objects
 An event will be emitted for each item you add or remove. So if you do something like:
 
 ```js
-fruits.on('add', function(item) {});
+fruits.on('add', item =>});
 fruits.push('apple', 'orange', 'pear')
 ```
 
@@ -102,13 +108,13 @@ Initialize an `array`.
 As an empty array:
 
 ```js
-var arr = array();
+const arr = array();
 ```
 
 As an array with values:
 
 ```js
-var arr = array([1, 2, 3, 4]);
+const arr = array([1, 2, 3, 4]);
 ```
 
 Or as a mixin:
@@ -150,7 +156,7 @@ Mutator methods that modify the array will emit "add" and "remove" events.
   Iterate each value and invoke `fn(val, i)`.
 
 ```js
-users.each(function(val, i){})
+users.each(val =>) {})
 ```
 
 #### `.map(fn|str)`
@@ -160,9 +166,7 @@ users.each(function(val, i){})
   Passing a callback function:
 
 ```js
-users.map(function(user){
-  return user.name.first
-})
+users.map(user => user.name.first)
 ```
 
 
@@ -177,9 +181,7 @@ users.map('name.first')
   Select all values that return a truthy value of `fn(val, i)`. The argument passed in can either be a function or a string.
 
 ```js
-users.select(function(user){
-  return user.age > 20
-})
+users.select(user => user.age > 20)
 ```
 
   With a property:
@@ -213,9 +215,7 @@ users.unique('age')
   Rejecting using a callback:
 
 ```js
-users.reject(function(user){
-  return user.age < 20
-})
+users.reject(user => user.age < 20)
 ```
 
 
@@ -265,7 +265,7 @@ food.sort('calories', false)
 Using a function:
 
 ```js
-users.sort(function(user1, user2) {})
+users.sort((user1, user2) => {})
 ```
 
 #### `.compact()`
@@ -283,9 +283,7 @@ users.sort(function(user1, user2) {})
   otherwise return `undefined`.
 
 ```js
-users.find(function(user){
-  return user.role == 'admin'
-})
+users.find(user => user.role == 'admin')
 ```
 
 #### `.findLast(fn|str)`
@@ -294,9 +292,7 @@ users.find(function(user){
   otherwise return `undefined`.
 
 ```js
-users.findLast(function(user){
-  return user.role == 'admin'
-})
+users.findLast(user => user.role === 'admin')
 ```
 
 #### `.none(fn|str)`
@@ -306,7 +302,7 @@ users.findLast(function(user){
   For example ensuring that no pets are admins:
 
 ```js
-pets.none(function(p){ return p.admin })
+pets.none(p => p.admin })
 pets.none('admin')
 ```
 
@@ -317,9 +313,7 @@ pets.none('admin')
   For example checking to see if any pets are ferrets:
 
 ```js
-pets.any(function(pet){
-  return pet.species == 'ferret'
-})
+pets.any(pet => pet.species == 'ferret')
 ```
 
 #### `.count(fn|str)`
@@ -327,9 +321,7 @@ pets.any(function(pet){
   Count the number of times `fn(val, i)` returns true.
 
 ```js
-var n = pets.count(function(pet){
-  return pet.species == 'ferret'
-})
+const n = pets.count(pet => pet.species === 'ferret')
 ```
 
 #### `.indexOf(mixed)`
@@ -360,9 +352,7 @@ var n = pets.count(function(pet){
   With a callback function:
 
 ```js
-pets.max(function(pet){
-  return pet.age
-})
+pets.max(pet => pet.age)
 ```
 
 
@@ -386,9 +376,7 @@ nums.max()
   With a callback function:
 
 ```js
-pets.sum(function(pet){
-  return pet.age
-})
+pets.sum(pet => pet.age)
 ```
 
 
@@ -417,12 +405,12 @@ nums.sum()
   Create a hash from the given `key`.
 
 ```js
-var fruits = array();
+const fruits = array();
 fruits.push({ name : "apple", color : "red" });
 fruits.push({ name : "pear", color : "green" });
 fruits.push({ name : "orange", color : "orange" });
 
-var obj = fruits.hash('name');
+const obj = fruits.hash('name');
 obj.apple //=> { name : "apple", color : "red" }
 obj.pear //=> { name : "pear", color : "green" }
 obj.orange //=> { name : "orange", color : "orange" }
@@ -444,7 +432,7 @@ Benchmarks are preliminary but also promising:
 
 ## Run tests
 
-    npm install .
+    npm install
     npm test
 
 ## License
